@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.burton.arlen.brewyou.YouBrews">
+    tools:context="com.burton.arlen.brewyou.YouBrews"
+    android:background="@drawable/bg">
 
     <TextView
         android:id="@+id/goodBrewText"
@@ -30,10 +31,19 @@
         android:id="@+id/returnFromYB"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/returnToSearchFromYB"
+        android:layout_marginBottom="2sp"
+        android:layout_marginLeft="5sp"
+        android:layout_marginRight="5sp"
+        android:text="Return Home"/>
+    <Button
+        android:id="@+id/returnToSearchFromYB"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="5sp"
         android:layout_marginLeft="5sp"
         android:layout_marginRight="5sp"
-        android:text="Return Home"/>
+        android:text="Return To Search"/>
 
 </RelativeLayout>

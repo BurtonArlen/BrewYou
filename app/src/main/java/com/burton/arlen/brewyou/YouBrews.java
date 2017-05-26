@@ -19,6 +19,7 @@ import butterknife.ButterKnife;
 public class YouBrews extends AppCompatActivity {
     @Bind(R.id.returnFromYB) Button mReturnFromYB;
     @Bind(R.id.youBrewList) ListView mYouBrewList;
+    @Bind(R.id.returnToSearchFromYB) Button mReturnToSearchFromYB;
 
     private ArrayList<String> goodBrews = new ArrayList<>();
 
@@ -38,8 +39,16 @@ public class YouBrews extends AppCompatActivity {
 
         mReturnFromYB.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View v) {
+            public void onClick(View v){
                 Intent intent = new Intent(YouBrews.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        mReturnToSearchFromYB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view){
+                Intent intent = new Intent(YouBrews.this, BrewSearch.class);
                 startActivity(intent);
             }
         });
