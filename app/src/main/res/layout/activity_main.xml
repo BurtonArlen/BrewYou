@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.burton.arlen.brewyou.MainActivity">
+    tools:context="com.burton.arlen.brewyou.MainActivity"
+    android:background="@drawable/bg">
 
     <TextView
         android:id="@+id/welcomeText"
@@ -16,46 +16,98 @@
         android:textAllCaps="true"
         android:textSize="20sp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:rotation="3"
+        android:textColor="#000"/>
     <TextView
         android:layout_below="@+id/welcomeText"
         android:id="@+id/taglineText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Lets Find You Brews"
+        android:text="Lets Find You Some Brews"
         android:layout_centerHorizontal="true"
         android:textAllCaps="true"
         android:layout_marginTop="5sp"
         android:textSize="16sp"
+        android:rotation="-2"
+        android:textColor="#000"
         />
     <Button
         android:id="@+id/aboutPageButton"
-        android:layout_width="100sp"
-        android:layout_height="270sp"
+        android:layout_width="60sp"
+        android:layout_height="60sp"
         android:text="About Us"
         android:textSize="11sp"
+        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="140sp"/>
+        android:layout_marginTop="180sp"
+        android:background="@drawable/button_shape"/>
     <Button
         android:id="@+id/youBrewPageButton"
-        android:layout_width="100sp"
+        android:layout_width="wrap_content"
         android:layout_height="270sp"
-        android:text="The Brews For You"
-        android:textSize="11sp"
-        android:layout_marginLeft="-102sp"
-        android:layout_alignLeft="@+id/aboutPageButton"
-        android:layout_marginTop="100sp"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="270sp"
+        android:background="@drawable/button_custom1"
         />
     <Button
         android:id="@+id/notYouBrewPageButton"
-        android:layout_width="100sp"
+        android:layout_width="wrap_content"
         android:layout_height="270sp"
-        android:text="Brews Not For you"
-        android:textSize="11sp"
-        android:layout_marginLeft="102sp"
-        android:layout_alignLeft="@+id/aboutPageButton"
-        android:layout_marginTop="180sp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="90sp"
+        android:background="@drawable/button_custom2"
         />
+
+    <TextView
+        android:layout_width="100sp"
+        android:layout_height="wrap_content"
+        android:text="You'll find your liked beers here"
+        android:id="@+id/textView2"
+        android:textColor="#000"
+        android:rotation="-11"
+        android:layout_marginTop="72dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_alignTop="@+id/notYouBrewPageButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="100sp"
+        android:layout_height="wrap_content"
+        android:text="Manage the ones you don't like here"
+        android:layout_marginLeft="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="6dp"
+        android:layout_below="@+id/imageView"
+        android:layout_toRightOf="@+id/aboutPageButton"
+        android:layout_toEndOf="@+id/aboutPageButton"
+        android:rotation="14"
+        android:id="@+id/textView3"
+        android:textColor="#000"/>
+
+    <ImageView
+        android:layout_width="65sp"
+        android:layout_height="65sp"
+        android:background="@drawable/arrow_down"
+        android:id="@+id/imageView2"
+        android:rotation="20"
+        android:layout_marginTop="6dp"
+        android:layout_below="@+id/textView2"
+        android:layout_alignRight="@+id/textView2"
+        android:layout_alignEnd="@+id/textView2" />
+
+    <ImageView
+        android:layout_width="35sp"
+        android:layout_height="70sp"
+        android:background="@drawable/arrow_up"
+        android:id="@+id/imageView"
+        android:layout_marginLeft="28dp"
+        android:layout_marginStart="28dp"
+        android:layout_below="@+id/notYouBrewPageButton"
+        android:layout_alignLeft="@+id/textView3"
+        android:layout_alignStart="@+id/textView3" />
 
     <Button
         android:id="@+id/searchBeerButton"
