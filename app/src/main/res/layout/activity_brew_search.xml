@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Find What you're looking for?"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:textAllCaps="true"
         android:textSize="20sp"
         android:layout_alignParentTop="true"
@@ -20,8 +20,20 @@
         android:id="@+id/instructionText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Tap to add beers you like
-        Press and hold the ones you don't"
+        android:text="Tap to add beers you like"
+        android:textAlignment="center"
+        android:layout_centerHorizontal="true"
+        android:textAllCaps="true"
+        android:layout_marginTop="5sp"
+        android:textSize="16sp"
+        />
+
+    <TextView
+        android:layout_below="@+id/instructionText"
+        android:id="@+id/instructionText2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Press and hold the ones you don't"
         android:textAlignment="center"
         android:layout_centerHorizontal="true"
         android:textAllCaps="true"
@@ -32,10 +44,10 @@
     <ListView
         android:id="@+id/searchBrewList"
         android:layout_width="match_parent"
-        android:layout_height="400sp"
+        android:layout_height="460sp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10sp"
-        android:layout_below="@+id/instructionText">
+        android:layout_below="@+id/instructionText2">
 
     </ListView>
 

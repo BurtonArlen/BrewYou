@@ -33,15 +33,15 @@ public class BrewSearch extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String likedBeer = ((TextView)view).getText().toString() + " has been added to your liked brews";
-                Toast.makeText(BrewSearch.this, likedBeer, Toast.LENGTH_SHORT).show();
+                Toast.makeText(BrewSearch.this, likedBeer, Toast.LENGTH_LONG).show();
             }
         });
 
         mSearchBrewList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String dislikedBeer = ((TextView)view).getText().toString() + " has been added to your disliked brews";
-                Toast.makeText(BrewSearch.this, dislikedBeer, Toast.LENGTH_SHORT).show();
+                String dislikedBeer = ((TextView)view).getText().toString() + " has been added to your disliked brews and will no longer appear in your searches";
+                Toast.makeText(BrewSearch.this, dislikedBeer, Toast.LENGTH_LONG).show();
                 return true;
             }
         });
