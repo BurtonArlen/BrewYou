@@ -1,9 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.burton.arlen.brewyou.NotYouBrews">
 
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:id="@+id/badBrewText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bad Beer HeadQuarters"
+        android:layout_marginTop="30dp"
+        android:textAllCaps="true"
+        android:textSize="20sp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+    <Button
+        android:id="@+id/returnFromNYB"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="5sp"
+        android:layout_marginLeft="5sp"
+        android:layout_marginRight="5sp"
+        android:text="Return Home"/>
+
+</RelativeLayout>
