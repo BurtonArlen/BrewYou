@@ -29,6 +29,13 @@ public class YouBrews extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
+        Intent intent = getIntent();
+        String likedBeer = intent.getStringExtra("likedBeer");
+        goodBrews.add(likedBeer);
+
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, goodBrews);
+        mYouBrewList.setAdapter(adapter);
+
         mReturnFromYB.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {

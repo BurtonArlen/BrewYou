@@ -16,6 +16,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
     <ListView
+        android:id="@+id/notYouBrewList"
         android:layout_width="match_parent"
         android:layout_height="400sp"
         android:layout_centerHorizontal="true"

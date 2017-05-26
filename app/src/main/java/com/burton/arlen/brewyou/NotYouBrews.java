@@ -4,13 +4,21 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
+
+import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class NotYouBrews extends AppCompatActivity {
     @Bind(R.id.returnFromNYB) Button mReturnFromNYB;
+    @Bind(R.id.notYouBrewList) ListView mNotYouBrewList;
+
+    private ArrayList<String> badBrews = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +26,13 @@ public class NotYouBrews extends AppCompatActivity {
         setContentView(R.layout.activity_not_you_brews);
 
         ButterKnife.bind(this);
+
+        Intent intent = getIntent();
+        String dislikedBeer = intent.getStringExtra("dislikedBeer");
+        badBrews.add(dislikedBeer);
+
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, badBrews);
+        mNotYouBrewList.setAdapter(adapter);
 
         mReturnFromNYB.setOnClickListener(new View.OnClickListener(){
             @Override

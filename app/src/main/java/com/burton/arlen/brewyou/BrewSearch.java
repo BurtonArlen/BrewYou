@@ -32,16 +32,23 @@ public class BrewSearch extends AppCompatActivity {
         mSearchBrewList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String likedBeer = ((TextView)view).getText().toString() + " has been added to your liked brews";
-                Toast.makeText(BrewSearch.this, likedBeer, Toast.LENGTH_LONG).show();
+                String likedBeer = ((TextView)view).getText().toString();
+                Toast.makeText(BrewSearch.this, likedBeer  + " has been added to your liked brews", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(BrewSearch.this, YouBrews.class);
+                intent.putExtra("likedBeer", likedBeer);
+                startActivity(intent);
+
             }
         });
 
         mSearchBrewList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String dislikedBeer = ((TextView)view).getText().toString() + " has been added to your disliked brews and will no longer appear in your searches";
-                Toast.makeText(BrewSearch.this, dislikedBeer, Toast.LENGTH_LONG).show();
+                String dislikedBeer = ((TextView)view).getText().toString();
+                Toast.makeText(BrewSearch.this, dislikedBeer + " has been added to your disliked brews and will no longer appear in your searches", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(BrewSearch.this, NotYouBrews.class);
+                intent.putExtra("dislikedBeer", dislikedBeer);
+                startActivity(intent);
                 return true;
             }
         });
