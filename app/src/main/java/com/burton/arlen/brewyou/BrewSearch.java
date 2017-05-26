@@ -4,9 +4,12 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -25,6 +28,23 @@ public class BrewSearch extends AppCompatActivity {
 
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, searchedBrewsTemp);
         mSearchBrewList.setAdapter(adapter);
+
+        mSearchBrewList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String likedBeer = ((TextView)view).getText().toString() + " has been added to your liked brews";
+                Toast.makeText(BrewSearch.this, likedBeer, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        mSearchBrewList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String dislikedBeer = ((TextView)view).getText().toString() + " has been added to your disliked brews";
+                Toast.makeText(BrewSearch.this, dislikedBeer, Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
 
         mReturnFromSearch.setOnClickListener(new View.OnClickListener(){
             @Override
