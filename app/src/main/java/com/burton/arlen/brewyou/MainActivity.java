@@ -13,7 +13,7 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.aboutPageButton) Button mAboutPageButton;
     @Bind(R.id.youBrewPageButton) Button mYouBrewPageButton;
     @Bind(R.id.notYouBrewPageButton) Button mNotYouBrewPageButton;
-//    @Bind(R.id.searchBeerButton) Button mSearchBeerButton;
+    @Bind(R.id.searchBeerButton) Button mSearchBeerButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +40,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, NotYouBrews.class);
+                startActivity(intent);
+            }
+        });
+        mSearchBeerButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, BrewSearch.class);
                 startActivity(intent);
             }
         });
