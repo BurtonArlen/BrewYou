@@ -28,14 +28,22 @@ public class NotYouBrews extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
+
         Intent intent = getIntent();
-        String dislikedBeer = intent.getStringExtra("dislikedBeer");
-        badBrews.add(dislikedBeer);
 
-        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, badBrews);
-        mNotYouBrewList.setAdapter(adapter);
+        if (intent != null) {
 
-        mReturnFromNYB.setOnClickListener(new View.OnClickListener(){
+            String dislikedBeer = intent.getStringExtra("dislikedBeer");
+            badBrews.add(dislikedBeer);
+
+        } else {
+
+            ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, badBrews);
+            mNotYouBrewList.setAdapter(adapter);
+        }
+
+
+        mReturnFromNYB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(NotYouBrews.this, MainActivity.class);

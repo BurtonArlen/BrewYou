@@ -17,9 +17,12 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class YouBrews extends AppCompatActivity {
-    @Bind(R.id.returnFromYB) Button mReturnFromYB;
-    @Bind(R.id.youBrewList) ListView mYouBrewList;
-    @Bind(R.id.returnToSearchFromYB) Button mReturnToSearchFromYB;
+    @Bind(R.id.returnFromYB)
+    Button mReturnFromYB;
+    @Bind(R.id.youBrewList)
+    ListView mYouBrewList;
+    @Bind(R.id.returnToSearchFromYB)
+    Button mReturnToSearchFromYB;
 
     private ArrayList<String> goodBrews = new ArrayList<>();
 
@@ -31,15 +34,19 @@ public class YouBrews extends AppCompatActivity {
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        String likedBeer = intent.getStringExtra("likedBeer");
-        goodBrews.add(likedBeer);
 
-        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, goodBrews);
-        mYouBrewList.setAdapter(adapter);
+        if (intent != null) {
+            String likedBeer = intent.getStringExtra("likedBeer");
+            goodBrews.add(likedBeer);
+        } else {
 
-        mReturnFromYB.setOnClickListener(new View.OnClickListener(){
+            ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, goodBrews);
+            mYouBrewList.setAdapter(adapter);
+        }
+
+        mReturnFromYB.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 Intent intent = new Intent(YouBrews.this, MainActivity.class);
                 startActivity(intent);
             }
@@ -47,7 +54,7 @@ public class YouBrews extends AppCompatActivity {
 
         mReturnToSearchFromYB.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view){
+            public void onClick(View view) {
                 Intent intent = new Intent(YouBrews.this, BrewSearch.class);
                 startActivity(intent);
             }
