@@ -42,7 +42,7 @@
         android:textSize="16sp"
         />
 
-    <ListView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/searchBrewList"
         android:layout_width="match_parent"
         android:layout_height="460sp"
@@ -50,7 +50,7 @@
         android:layout_marginTop="10sp"
         android:layout_below="@+id/instructionText2">
 
-    </ListView>
+    </android.support.v7.widget.RecyclerView>
 
     <Button
         android:id="@+id/returnFromSearch"

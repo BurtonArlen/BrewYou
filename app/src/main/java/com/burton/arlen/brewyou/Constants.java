@@ -15,4 +15,4 @@ public class Constants {
 
 
 }
-http://api.brewerydb.com/v2/search/?q=Rainer&type=beer&key=57dcc32caa34e7ea24a812532cb63716
+//http://api.brewerydb.com/v2/search/?q=Rainer&type=beer&key=57dcc32caa34e7ea24a812532cb63716
