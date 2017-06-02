@@ -5,13 +5,6 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/placeholder4"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginStart="8dp"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp" />
 
     <ImageView
         android:id="@+id/iconView"
@@ -42,7 +35,7 @@
         tools:layout_editor_absoluteY="7dp" />
 
     <TextView
-        android:id="@+id/availabilityView"
+        android:id="@+id/availabilityText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Availability"

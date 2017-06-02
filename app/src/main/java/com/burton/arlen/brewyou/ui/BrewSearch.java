@@ -6,10 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,9 +24,11 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-public class BrewSearch extends AppCompatActivity implements View.OnClickListener{
-    @Bind(R.id.returnFromSearch) Button mReturnFromSearch;
-    @Bind(R.id.searchBrewList) RecyclerView mSearchBrewList;
+public class BrewSearch extends AppCompatActivity implements View.OnClickListener {
+    @Bind(R.id.returnFromSearch)
+    Button mReturnFromSearch;
+    @Bind(R.id.searchBrewList)
+    RecyclerView mSearchBrewList;
     public ArrayList<Beer> mBeers = new ArrayList<>();
 
     @Override
@@ -39,16 +38,29 @@ public class BrewSearch extends AppCompatActivity implements View.OnClickListene
         ButterKnife.bind(this);
         mReturnFromSearch.setOnClickListener(this);
 
-        ArrayAdapter adapter = new ArrayAdapter(this, R.layout.beer_list_item, mBeers);
-        mSearchBrewList.setAdapter(adapter);
-
         Intent intent = getIntent();
         String beerSearchTerm = intent.getStringExtra("beerSearchTerm");
         getBeer(beerSearchTerm);
+    }
 
-    private void getBeer(String title, String year) {
+    @Override
+    public void onClick(View v) {
+        if (v == mSearchBrewList) {
+            String likedBeer = ((TextView) v).getText().toString();
+            Toast.makeText(BrewSearch.this, likedBeer + " has been added to your liked brews", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(BrewSearch.this, YouBrews.class);
+            intent.putExtra("likedBeer", likedBeer);
+            startActivity(intent);
+        }
+        if (v == mReturnFromSearch) {
+            Intent intent = new Intent(BrewSearch.this, MainActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    private void getBeer(String name) {
         final BottleService bottleService = new BottleService();
-        bottleService.findBeer(title, year, new Callback() {
+        bottleService.findBeer(name, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 e.printStackTrace();
@@ -73,7 +85,8 @@ public class BrewSearch extends AppCompatActivity implements View.OnClickListene
                 });
             }
         });
-
+    }
+}
 //        mSearchBrewList.setOnItemLongClickListener(new RecyclerView.OnItemLongClickListener() {
 //            @Override
 //            public boolean onItemLongClick(RecyclerView<?> recyclerView, View view, int i, long l) {
@@ -96,23 +109,5 @@ public class BrewSearch extends AppCompatActivity implements View.OnClickListene
 //
 //            }
 //        });
-    }
-
-    @Override
-    public void onClick(View v){
-        if (v == mSearchBrewList){
-            String likedBeer = ((TextView)v).getText().toString();
-            Toast.makeText(BrewSearch.this, likedBeer  + " has been added to your liked brews", Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(BrewSearch.this, YouBrews.class);
-            intent.putExtra("likedBeer", likedBeer);
-            startActivity(intent);
-        }
-
-    @Override
-    public void onClick(View v){
-        if (v == mReturnFromSearch){
-            Intent intent = new Intent(BrewSearch.this, MainActivity.class);
-            startActivity(intent);
-        }
-    }
-}
+//    }
+//
