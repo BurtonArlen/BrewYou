@@ -1,4 +1,4 @@
-package com.burton.arlen.brewyou;
+package com.burton.arlen.brewyou.ui;
 
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.burton.arlen.brewyou.R;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

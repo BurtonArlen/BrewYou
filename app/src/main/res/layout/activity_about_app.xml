@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.burton.arlen.brewyou.AboutApp"
+    tools:context="com.burton.arlen.brewyou.ui.AboutApp"
     android:background="@drawable/bg">
 
     <TextView

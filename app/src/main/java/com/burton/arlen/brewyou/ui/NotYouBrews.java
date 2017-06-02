@@ -1,4 +1,4 @@
-package com.burton.arlen.brewyou;
+package com.burton.arlen.brewyou.ui;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+
+import com.burton.arlen.brewyou.R;
 
 import java.util.ArrayList;
 
@@ -35,6 +37,8 @@ public class NotYouBrews extends AppCompatActivity {
 
             String dislikedBeer = intent.getStringExtra("dislikedBeer");
             badBrews.add(dislikedBeer);
+            ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, badBrews);
+            mNotYouBrewList.setAdapter(adapter);
 
         } else {
 

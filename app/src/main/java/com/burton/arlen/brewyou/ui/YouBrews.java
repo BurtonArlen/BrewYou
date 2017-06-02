@@ -1,15 +1,14 @@
-package com.burton.arlen.brewyou;
+package com.burton.arlen.brewyou.ui;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
+
+import com.burton.arlen.brewyou.R;
 
 import java.util.ArrayList;
 
@@ -17,12 +16,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class YouBrews extends AppCompatActivity {
-    @Bind(R.id.returnFromYB)
-    Button mReturnFromYB;
-    @Bind(R.id.youBrewList)
-    ListView mYouBrewList;
-    @Bind(R.id.returnToSearchFromYB)
-    Button mReturnToSearchFromYB;
+    @Bind(R.id.returnFromYB) Button mReturnFromYB;
+    @Bind(R.id.youBrewList) ListView mYouBrewList;
+    @Bind(R.id.returnToSearchFromYB) Button mReturnToSearchFromYB;
 
     private ArrayList<String> goodBrews = new ArrayList<>();
 
@@ -35,15 +31,15 @@ public class YouBrews extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-        if (intent != null) {
+
+      if (intent != null) {
             String likedBeer = intent.getStringExtra("likedBeer");
             goodBrews.add(likedBeer);
-        } else {
 
-            ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, goodBrews);
-            mYouBrewList.setAdapter(adapter);
-        }
-
+       } else {
+          ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, goodBrews);
+          mYouBrewList.setAdapter(adapter);
+      }
         mReturnFromYB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

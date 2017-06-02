@@ -1,4 +1,4 @@
-package com.burton.arlen.brewyou;
+package com.burton.arlen.brewyou.ui;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -11,7 +11,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
+import com.burton.arlen.brewyou.R;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
