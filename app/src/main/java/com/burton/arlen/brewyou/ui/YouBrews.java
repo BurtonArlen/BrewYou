@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class YouBrews extends AppCompatActivity {
+public class YouBrews extends AppCompatActivity implements View.OnClickListener{
     @Bind(R.id.returnFromYB) Button mReturnFromYB;
     @Bind(R.id.youBrewList) ListView mYouBrewList;
     @Bind(R.id.returnToSearchFromYB) Button mReturnToSearchFromYB;
@@ -28,32 +28,31 @@ public class YouBrews extends AppCompatActivity {
         setContentView(R.layout.activity_you_brews);
 
         ButterKnife.bind(this);
+        mReturnFromYB.setOnClickListener(this);
+        mReturnToSearchFromYB.setOnClickListener(this);
 
         Intent intent = getIntent();
 
 
-      if (intent != null) {
+        if (intent != null) {
             String likedBeer = intent.getStringExtra("likedBeer");
             goodBrews.add(likedBeer);
 
-       } else {
-          ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, goodBrews);
-          mYouBrewList.setAdapter(adapter);
-      }
-        mReturnFromYB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(YouBrews.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
+        } else {
+            ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, goodBrews);
+            mYouBrewList.setAdapter(adapter);
+        }
+    }
 
-        mReturnToSearchFromYB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(YouBrews.this, BrewSearch.class);
-                startActivity(intent);
-            }
-        });
+    @Override
+    public void onClick(View v){
+        if (v == mReturnFromYB){
+            Intent intent = new Intent(YouBrews.this, MainActivity.class);
+            startActivity(intent);
+        }
+        if (v == mReturnToSearchFromYB){
+            Intent intent = new Intent(YouBrews.this, BrewSearch.class);
+            startActivity(intent);
+        }
     }
 }

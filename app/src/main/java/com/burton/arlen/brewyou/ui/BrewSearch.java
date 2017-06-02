@@ -16,7 +16,7 @@ import com.burton.arlen.brewyou.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class BrewSearch extends AppCompatActivity {
+public class BrewSearch extends AppCompatActivity implements View.OnClickListener{
     @Bind(R.id.returnFromSearch) Button mReturnFromSearch;
     @Bind(R.id.searchBrewList) ListView mSearchBrewList;
 
@@ -27,21 +27,10 @@ public class BrewSearch extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_brew_search);
         ButterKnife.bind(this);
+        mReturnFromSearch.setOnClickListener(this);
 
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, searchedBrewsTemp);
         mSearchBrewList.setAdapter(adapter);
-
-        mSearchBrewList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String likedBeer = ((TextView)view).getText().toString();
-                Toast.makeText(BrewSearch.this, likedBeer  + " has been added to your liked brews", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(BrewSearch.this, YouBrews.class);
-                intent.putExtra("likedBeer", likedBeer);
-                startActivity(intent);
-
-            }
-        });
 
         mSearchBrewList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -54,13 +43,24 @@ public class BrewSearch extends AppCompatActivity {
                 return true;
             }
         });
-
-        mReturnFromSearch.setOnClickListener(new View.OnClickListener(){
+        mSearchBrewList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(BrewSearch.this, MainActivity.class);
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String likedBeer = ((TextView)view).getText().toString();
+                Toast.makeText(BrewSearch.this, likedBeer  + " has been added to your liked brews", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(BrewSearch.this, YouBrews.class);
+                intent.putExtra("likedBeer", likedBeer);
                 startActivity(intent);
+
             }
         });
+    }
+
+    @Override
+    public void onClick(View v){
+        if (v == mReturnFromSearch){
+            Intent intent = new Intent(BrewSearch.this, MainActivity.class);
+            startActivity(intent);
+        }
     }
 }

@@ -11,7 +11,7 @@ import com.burton.arlen.brewyou.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class AboutApp extends AppCompatActivity {
+public class AboutApp extends AppCompatActivity implements View.OnClickListener{
 
     @Bind(R.id.returnFromAbout) Button mReturnFromAbout;
 
@@ -21,13 +21,13 @@ public class AboutApp extends AppCompatActivity {
         setContentView(R.layout.activity_about_app);
 
         ButterKnife.bind(this);
-
-        mReturnFromAbout.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(AboutApp.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
+        mReturnFromAbout.setOnClickListener(this);
+    }
+    @Override
+    public void onClick(View v){
+        if (v == mReturnFromAbout){
+            Intent intent = new Intent(AboutApp.this, MainActivity.class);
+            startActivity(intent);
+        }
     }
 }
