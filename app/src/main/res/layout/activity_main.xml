@@ -109,6 +109,15 @@
         android:layout_alignLeft="@+id/textView3"
         android:layout_alignStart="@+id/textView3" />
 
+    <EditText
+        android:id="@+id/beerSearchEnter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Beer Name"
+        android:textAlignment="center"
+        android:backgroundTint="@color/colorPrimary"
+        android:layout_above="@+id/searchBeerButton"/>
+
     <Button
         android:id="@+id/searchBeerButton"
         android:layout_width="match_parent"
