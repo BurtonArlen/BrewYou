@@ -2,16 +2,20 @@ package com.burton.arlen.brewyou.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.burton.arlen.brewyou.R;
 import com.burton.arlen.brewyou.models.Beer;
+import com.burton.arlen.brewyou.ui.BrewSearch;
 import com.burton.arlen.brewyou.ui.MainActivity;
+import com.burton.arlen.brewyou.ui.YouBrews;
 import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
@@ -69,10 +73,10 @@ public class SearchedBeerListAdapter extends RecyclerView.Adapter<SearchedBeerLi
         @Override
         public void onClick(View v){
             int itemPosition = getLayoutPosition();
-            Intent intent = new Intent(mContext, MainActivity.class);
-            intent.putExtra("position", itemPosition);
-            intent.putExtra("movies", Parcels.wrap(mBeers));
-            mContext.startActivity(intent);
+            Beer localBeer = mBeers.get(itemPosition);
+            String term = localBeer.getmGoogle();
+            Intent googleIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(term));
+            mContext.startActivity(googleIntent);
         }
         public void bindBeer(Beer beer){
             nameText.setText(beer.getmName());

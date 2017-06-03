@@ -45,13 +45,6 @@ public class BrewSearch extends AppCompatActivity implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-        if (v == mSearchBrewList) {
-            String likedBeer = ((TextView) v).getText().toString();
-            Toast.makeText(BrewSearch.this, likedBeer + " has been added to your liked brews", Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(BrewSearch.this, YouBrews.class);
-            intent.putExtra("likedBeer", likedBeer);
-            startActivity(intent);
-        }
         if (v == mReturnFromSearch) {
             Intent intent = new Intent(BrewSearch.this, MainActivity.class);
             startActivity(intent);

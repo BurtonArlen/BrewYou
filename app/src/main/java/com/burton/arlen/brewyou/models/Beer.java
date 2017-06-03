@@ -12,6 +12,7 @@ public class Beer {
     private String mImageLarge;
     private String mStyle;
     private String mAvailability;
+    private String mGoogle;
 
     public Beer(){}
 
@@ -43,6 +44,10 @@ public class Beer {
         return mAvailability;
     }
 
+    public String getmGoogle(){
+        return mGoogle;
+    }
+
     public Beer(String name, String id, String imageIcon, String imageMedium, String imageLarge, String style, String availability){
         this.mName = name;
         this.mId = id;
@@ -51,5 +56,6 @@ public class Beer {
         this.mImageLarge = imageLarge;
         this.mStyle = style;
         this.mAvailability = availability;
+        this.mGoogle = "https://www.google.com/search?q=" + name;
     }
 }
