@@ -26,24 +26,10 @@ public class YouBrews extends AppCompatActivity implements View.OnClickListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_you_brews);
-
         ButterKnife.bind(this);
         mReturnFromYB.setOnClickListener(this);
         mReturnToSearchFromYB.setOnClickListener(this);
-
-        Intent intent = getIntent();
-
-
-        if (intent != null) {
-            String likedBeer = intent.getStringExtra("likedBeer");
-            goodBrews.add(likedBeer);
-
-        } else {
-            ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, goodBrews);
-            mYouBrewList.setAdapter(adapter);
-        }
     }
-
     @Override
     public void onClick(View v){
         if (v == mReturnFromYB){

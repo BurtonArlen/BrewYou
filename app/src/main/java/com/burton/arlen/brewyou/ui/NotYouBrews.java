@@ -32,18 +32,6 @@ public class NotYouBrews extends AppCompatActivity implements View.OnClickListen
         mReturnFromNYB.setOnClickListener(this);
         mReturnToSearchFromNYB.setOnClickListener(this);
 
-        Intent intent = getIntent();
-
-        if (intent != null) {
-            String dislikedBeer = intent.getStringExtra("dislikedBeer");
-            badBrews.add(dislikedBeer);
-            ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, badBrews);
-            mNotYouBrewList.setAdapter(adapter);
-        } else {
-            ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, badBrews);
-            mNotYouBrewList.setAdapter(adapter);
-        }
-
     }
     @Override
     public void onClick(View v){
