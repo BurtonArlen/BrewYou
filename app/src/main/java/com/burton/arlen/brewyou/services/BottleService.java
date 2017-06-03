@@ -1,5 +1,7 @@
 package com.burton.arlen.brewyou.services;
 
+import android.util.Log;
+
 import com.burton.arlen.brewyou.Constants;
 import com.burton.arlen.brewyou.models.Beer;
 
@@ -40,20 +42,32 @@ public class BottleService {
 
         try{
             String jsonData = response.body().string();
+            Log.d("jsonData", jsonData);
             if (response.isSuccessful()){
                 JSONObject beersJSON = new JSONObject(jsonData);
+                Log.d("beersJSON", beersJSON.toString());
                 JSONArray resultsJSON = beersJSON.getJSONArray("data");
+                Log.d("resultsJSON", resultsJSON.toString());
+                String lengthOresults = String.format("%d", resultsJSON.length());
+                Log.d("lengthOresults", lengthOresults);
                 for (int i = 0; i < resultsJSON.length(); i++){
+                    String valueOi = String.format("%d", i);
+                    Log.d("valueOi", valueOi);
                     JSONObject beerJSON = resultsJSON.getJSONObject(i);
-                    String name = beerJSON.getString("name");
-                    String id = beerJSON.getString("id");
-                    String imageIcon = beerJSON.getJSONObject("labels").optString("icon");
-                    String imageMedium = beerJSON.getJSONObject("labels").optString("medium");
-                    String imageLarge = beerJSON.getJSONObject("labels").optString("large");
-                    String style = beerJSON.getJSONObject("style").optString("shortName");
-                    String availability = beerJSON.getJSONObject("available").getString("name");
-                    Beer beer = new Beer(name, id, imageIcon, imageMedium, imageLarge, style, availability);
-                    beers.add(beer);
+                    if(!beerJSON.toString().contains("\"labels\"") || (!beerJSON.toString().contains("\"available\""))) {
+                        Log.d("WEAKSAUCE", "WEAKSAUCE");
+                     } else {
+                        Log.d("beerJSON1", resultsJSON.getJSONObject(i).getJSONObject("labels").toString());
+                        String name = beerJSON.getString("name");
+                        String id = beerJSON.getString("id");
+                        String imageIcon = beerJSON.getJSONObject("labels").optString("icon");
+                        String imageMedium = beerJSON.getJSONObject("labels").optString("medium");
+                        String imageLarge = beerJSON.getJSONObject("labels").optString("large");
+                        String style = beerJSON.getJSONObject("style").optString("shortName");
+                        String availability = beerJSON.getJSONObject("available").getString("name");;
+                        Beer beer = new Beer(name, id, imageIcon, imageMedium, imageLarge, style, availability);
+                        beers.add(beer);
+                    }
                 }
             }
         } catch (IOException e) {
