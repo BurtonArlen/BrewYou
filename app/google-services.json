@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "52130023302",
+    "firebase_url": "https://brewyou-bfc16.firebaseio.com",
+    "project_id": "brewyou-bfc16",
+    "storage_bucket": "brewyou-bfc16.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:52130023302:android:88d6c54382e0447f",
+        "android_client_info": {
+          "package_name": "com.burton.arlen.brewyou"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "52130023302-n6i5b53dbs163hpcp0rnta0k7fm0s9k8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.burton.arlen.brewyou",
+            "certificate_hash": "e6536c315e8487f1a2809d7bae47812e3c8c1794"
+          }
+        },
+        {
+          "client_id": "52130023302-k5olmfa5tv02638viem5sbkh114o8bmk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDoto2NttMq7acqCsUPa5Hn7FocZ-vyhtE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "52130023302-k5olmfa5tv02638viem5sbkh114o8bmk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
