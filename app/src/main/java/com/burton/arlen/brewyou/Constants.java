@@ -5,6 +5,7 @@ package com.burton.arlen.brewyou;
  */
 
 public class Constants {
+    public static final String ClientId = BuildConfig.ClientId;
     public  static final String BEER_KEY = BuildConfig.BEERKEY;
     public  static  final String BASE_URL= "http://api.brewerydb.com/v2/search/";
     public static final String KEY_PARAM = "key";
