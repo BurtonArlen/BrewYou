@@ -5,53 +5,12 @@
     android:layout_height="match_parent"
     tools:context="com.burton.arlen.brewyou.ui.BrewSearch"
     android:background="@drawable/bg">
-
-    <TextView
-        android:id="@+id/newSearchText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Find What you're looking for?"
-        android:layout_marginTop="10dp"
-        android:textAllCaps="true"
-        android:textSize="20sp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
-    <TextView
-        android:layout_below="@+id/newSearchText"
-        android:id="@+id/instructionText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tap to add beers you like"
-        android:textAlignment="center"
-        android:layout_centerHorizontal="true"
-        android:textAllCaps="true"
-        android:layout_marginTop="5sp"
-        android:textSize="16sp"
-        />
-
-    <TextView
-        android:layout_below="@+id/instructionText"
-        android:id="@+id/instructionText2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Press and hold the ones you don't"
-        android:textAlignment="center"
-        android:layout_centerHorizontal="true"
-        android:textAllCaps="true"
-        android:layout_marginTop="5sp"
-        android:textSize="16sp"
-        />
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/searchBrewList"
         android:layout_width="match_parent"
-        android:layout_height="460sp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10sp"
-        android:layout_below="@+id/instructionText2">
-
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true">
     </android.support.v7.widget.RecyclerView>
-
     <Button
         android:id="@+id/returnFromSearch"
         android:layout_width="match_parent"
@@ -61,5 +20,4 @@
         android:layout_marginLeft="5sp"
         android:layout_marginRight="5sp"
         android:text="Return Home"/>
-
 </RelativeLayout>

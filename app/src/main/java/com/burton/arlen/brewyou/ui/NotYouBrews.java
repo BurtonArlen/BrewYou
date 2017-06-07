@@ -17,9 +17,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class NotYouBrews extends AppCompatActivity implements View.OnClickListener{
-    @Bind(R.id.returnFromNYB) Button mReturnFromNYB;
-    @Bind(R.id.notYouBrewList) ListView mNotYouBrewList;
-    @Bind(R.id.returnToSearchFromNYB) Button mReturnToSearchFromNYB;
+    @Bind(R.id.returnFromB) Button mReturnFromNYB;
+    @Bind(R.id.brewList) ListView mNotYouBrewList;
+
 
     private ArrayList<String> badBrews = new ArrayList<>();
 
@@ -27,20 +27,16 @@ public class NotYouBrews extends AppCompatActivity implements View.OnClickListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_not_you_brews);
+        setContentView(R.layout.brew_lists);
         ButterKnife.bind(this);
         mReturnFromNYB.setOnClickListener(this);
-        mReturnToSearchFromNYB.setOnClickListener(this);
+
 
     }
     @Override
     public void onClick(View v){
         if (v == mReturnFromNYB){
             Intent intent = new Intent(NotYouBrews.this, MainActivity.class);
-            startActivity(intent);
-        }
-        if (v == mReturnToSearchFromNYB){
-            Intent intent = new Intent(NotYouBrews.this, BrewSearch.class);
             startActivity(intent);
         }
     }

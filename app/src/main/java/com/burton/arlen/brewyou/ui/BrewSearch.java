@@ -25,10 +25,8 @@ import okhttp3.Callback;
 import okhttp3.Response;
 
 public class BrewSearch extends AppCompatActivity implements View.OnClickListener {
-    @Bind(R.id.returnFromSearch)
-    Button mReturnFromSearch;
-    @Bind(R.id.searchBrewList)
-    RecyclerView mSearchBrewList;
+    @Bind(R.id.returnFromSearch) Button mReturnFromSearch;
+    @Bind(R.id.searchBrewList) RecyclerView mSearchBrewList;
     public ArrayList<Beer> mBeers = new ArrayList<>();
 
     @Override
@@ -80,27 +78,4 @@ public class BrewSearch extends AppCompatActivity implements View.OnClickListene
         });
     }
 }
-//        mSearchBrewList.setOnItemLongClickListener(new RecyclerView.OnItemLongClickListener() {
-//            @Override
-//            public boolean onItemLongClick(RecyclerView<?> recyclerView, View view, int i, long l) {
-//                String dislikedBeer = ((TextView)view).getText().toString();
-//                Toast.makeText(BrewSearch.this, dislikedBeer + " has been added to your disliked brews and will no longer appear in your searches", Toast.LENGTH_LONG).show();
-//                Intent intent = new Intent(BrewSearch.this, NotYouBrews.class);
-//                intent.putExtra("dislikedBeer", dislikedBeer);
-//                startActivity(intent);
-//                return true;
-//            }
-//        });
-//        mSearchBrewList.setOnItemClickListener(new RecyclerView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(RecyclerView<?> recyclerView, View view, int i, long l) {
-//                String likedBeer = ((TextView)view).getText().toString();
-//                Toast.makeText(BrewSearch.this, likedBeer  + " has been added to your liked brews", Toast.LENGTH_LONG).show();
-//                Intent intent = new Intent(BrewSearch.this, YouBrews.class);
-//                intent.putExtra("likedBeer", likedBeer);
-//                startActivity(intent);
-//
-//            }
-//        });
-//    }
-//
+
