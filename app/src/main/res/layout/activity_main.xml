@@ -32,16 +32,7 @@
         android:rotation="-2"
         android:textColor="#000"
         />
-    <Button
-        android:id="@+id/aboutPageButton"
-        android:layout_width="60sp"
-        android:layout_height="60sp"
-        android:text="About Us"
-        android:textSize="11sp"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="180sp"
-        android:background="@drawable/button_shape"/>
+
     <Button
         android:id="@+id/youBrewPageButton"
         android:layout_width="wrap_content"
@@ -108,24 +99,5 @@
         android:layout_below="@+id/notYouBrewPageButton"
         android:layout_alignLeft="@+id/textView3"
         android:layout_alignStart="@+id/textView3" />
-
-    <EditText
-        android:id="@+id/beerSearchEnter"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Beer Name"
-        android:textAlignment="center"
-        android:backgroundTint="@color/colorPrimary"
-        android:layout_above="@+id/searchBeerButton"/>
-
-    <Button
-        android:id="@+id/searchBeerButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:text="Search (replace with colloquialism related to beer)"
-        android:textSize="11sp"/>
 
 </RelativeLayout>

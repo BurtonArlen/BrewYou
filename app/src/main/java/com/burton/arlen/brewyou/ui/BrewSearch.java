@@ -1,15 +1,23 @@
 package com.burton.arlen.brewyou.ui;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.burton.arlen.brewyou.Constants;
 import com.burton.arlen.brewyou.R;
 import com.burton.arlen.brewyou.adapters.SearchedBeerListAdapter;
 import com.burton.arlen.brewyou.models.Beer;
@@ -27,6 +35,10 @@ import okhttp3.Response;
 public class BrewSearch extends AppCompatActivity implements View.OnClickListener {
     @Bind(R.id.returnFromSearch) Button mReturnFromSearch;
     @Bind(R.id.searchBrewList) RecyclerView mSearchBrewList;
+
+    private SharedPreferences mSharedPreferences;
+    private String mRecentSearches;
+    private SharedPreferences.Editor mEditor;
     public ArrayList<Beer> mBeers = new ArrayList<>();
 
     @Override
@@ -35,11 +47,57 @@ public class BrewSearch extends AppCompatActivity implements View.OnClickListene
         setContentView(R.layout.activity_brew_search);
         ButterKnife.bind(this);
         mReturnFromSearch.setOnClickListener(this);
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mRecentSearches = mSharedPreferences.getString(Constants.PREFERENCES_NAME, null);
+
+        if (mRecentSearches != null){
+            getBeer(mRecentSearches);
+        }
 
         Intent intent = getIntent();
         String beerSearchTerm = intent.getStringExtra("beerSearchTerm");
         getBeer(beerSearchTerm);
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_search, menu);
+        ButterKnife.bind(this);
+
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mEditor = mSharedPreferences.edit();
+
+        MenuItem menuItem = menu.findItem(R.id.action_search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if (query != null) {
+                    addToSharedPreferences(query);
+                    getBeer(query);
+                } else {
+                    Toast.makeText(BrewSearch.this, "Please Enter Search Terms", Toast.LENGTH_LONG).show();
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+
+        });
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item);
+    }
+
 
     @Override
     public void onClick(View v) {
@@ -76,6 +134,9 @@ public class BrewSearch extends AppCompatActivity implements View.OnClickListene
                 });
             }
         });
+    }
+    private void addToSharedPreferences(String name) {
+        mEditor.putString(Constants.PREFERENCES_NAME, name).apply();
     }
 }
 

@@ -12,6 +12,7 @@ public class Constants {
     public static final String ENDPOINT_QUERY = "q";
     public static final String ENDPOINT_KEYWORD = "type";
     public static final String ENDPOINT_TYPE = "beer";
+    public static final String PREFERENCES_NAME = "name";
 
 
 

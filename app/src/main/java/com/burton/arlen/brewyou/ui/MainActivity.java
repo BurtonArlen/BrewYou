@@ -2,27 +2,41 @@ package com.burton.arlen.brewyou.ui;
 
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.support.annotation.NonNull;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.burton.arlen.brewyou.R;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+import com.google.firebase.auth.FirebaseAuth;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
-    @Bind(R.id.aboutPageButton) Button mAboutPageButton;
+    private FirebaseAuth mAuth;
+    private GoogleApiClient mGoogleApiClient;
+
     @Bind(R.id.youBrewPageButton) Button mYouBrewPageButton;
     @Bind(R.id.notYouBrewPageButton) Button mNotYouBrewPageButton;
-    @Bind(R.id.searchBeerButton) Button mSearchBeerButton;
     @Bind(R.id.welcomeText) TextView mWelcomeText;
     @Bind(R.id.taglineText) TextView mTaglineText;
-    @Bind(R.id.beerSearchEnter) EditText mBeerSearchEnter;
+
 
 
     @Override
@@ -35,29 +49,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/font.ttf");
         mWelcomeText.setTypeface(font);
         mTaglineText.setTypeface(font);
-        mAboutPageButton.setOnClickListener(this);
         mNotYouBrewPageButton.setOnClickListener(this);
         mYouBrewPageButton.setOnClickListener(this);
-        mSearchBeerButton.setOnClickListener(this);
+
+        mAuth = FirebaseAuth.getInstance();
+
+    }
+
+    private void signOut() {
+        Intent intent = new Intent(MainActivity.this, GoogleSignInActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        mAuth.signOut();
+        startActivity(intent);
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.app_flow_menu_2, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+        if (id == R.id.action_logout){
+            signOut();
+            return true;
+        }
+        if (id == R.id.about_us){
+            Intent intent = new Intent(MainActivity.this, AboutApp.class);
+            startActivity(intent);
+        }
+        if (id == R.id.search_page){
+            Intent intent = new Intent(MainActivity.this, BrewSearch.class);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onClick(View v) {
-        if (v == mSearchBeerButton){
-            String beerSearchTerm = mBeerSearchEnter.getText().toString();
-            if (beerSearchTerm.trim().length() != 0){
-                Intent intent = new Intent(MainActivity.this, BrewSearch.class);
-                intent.putExtra("beerSearchTerm", beerSearchTerm);
-                startActivity(intent);
-            } else {
-                mBeerSearchEnter.setError("You gotta look for something before you can find it");
-                mBeerSearchEnter.setText("");
-            }
-        }
-        if (v == mAboutPageButton){
-            Intent intent = new Intent(MainActivity.this, AboutApp.class);
-            startActivity(intent);
-        }
         if(v == mYouBrewPageButton){
             Intent intent = new Intent(MainActivity.this, YouBrews.class);
             startActivity(intent);
@@ -66,6 +98,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent intent = new Intent(MainActivity.this, NotYouBrews.class);
             startActivity(intent);
         }
-
     }
 }

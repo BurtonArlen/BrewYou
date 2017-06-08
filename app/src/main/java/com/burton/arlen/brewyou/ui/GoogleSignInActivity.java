@@ -1,10 +1,16 @@
 package com.burton.arlen.brewyou.ui;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.CountDownTimer;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -28,16 +34,19 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.Transaction;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class GoogleSignInActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
 
+    private ProgressDialog mDialog;
     private FirebaseAuth mAuth;
     private GoogleApiClient mGoogleApiClient;
     private static final int RC_SIGN_IN = 360;
 
+    private Intent theIntent;
     private TextView mTestRevoke;
     private ImageView mImageLogin;
     String TAG = GoogleSignInActivity.class.getSimpleName();
@@ -46,31 +55,70 @@ public class GoogleSignInActivity extends AppCompatActivity implements GoogleApi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_google_sign_in);
-
+        createProgressDialog();
         mImageLogin = (ImageView) findViewById(R.id.imageLogin);
         mTestRevoke = (TextView) findViewById(R.id.testRevoke);
 
+        findViewById(R.id.signOutButton).setOnClickListener(this);
+        findViewById(R.id.mainActivityButton).setOnClickListener(this);
         findViewById(R.id.sign_in_button).setOnClickListener(this);
         findViewById(R.id.emailSignInButton).setOnClickListener(this);
 
-        // Configure Google Sign In
+        findViewById(R.id.signOutButton).setVisibility(View.GONE);
+        findViewById(R.id.mainActivityButton).setVisibility(View.GONE);
+        findViewById(R.id.signOutButton).setFocusable(false);
+        findViewById(R.id.mainActivityButton).setFocusable(false);
+
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
-
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this , this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
-
         mAuth = FirebaseAuth.getInstance();
-    }
 
+        Intent theIntent = getIntent();
+        String theIntentString = theIntent.getStringExtra("logout");
+
+    }
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        menu.clear();
+            if (mAuth.getCurrentUser() != null) {
+                getMenuInflater().inflate(R.menu.app_flow_menu_1, menu);
+            } else {
+                getMenuInflater().inflate(R.menu.menu_signed_out, menu);
+            }
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+        if (id == R.id.action_logout){
+            signOut();
+            return true;
+        }
+        if (id == R.id.user_profile){
+            Intent intent = new Intent(GoogleSignInActivity.this, MainActivity.class);
+            startActivity(intent);
+            return true;
+        }
+        if (id == R.id.revoke_user){
+            revokeAccess();
+            return true;
+        }
+        if (id == R.id.about_us){
+            Intent intent = new Intent(GoogleSignInActivity.this, AboutApp.class);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
+    }
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         updateUI(currentUser);
     }
@@ -78,16 +126,13 @@ public class GoogleSignInActivity extends AppCompatActivity implements GoogleApi
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             if (result.isSuccess()) {
-                // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = result.getSignInAccount();
                 firebaseAuthWithGoogle(account);
             } else {
-                // Google Sign In failed, update UI appropriately
-                // ...
+                Log.d(TAG, result.toString());
             }
         }
     }
@@ -95,30 +140,28 @@ public class GoogleSignInActivity extends AppCompatActivity implements GoogleApi
         Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
-        final String credCheck = credential.toString();
+        mDialog.show();
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                    Log.d(TAG, "signInCredential" + credCheck);
+                        mDialog.dismiss();
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
                         } else {
-                            // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
                             Toast.makeText(GoogleSignInActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                             updateUI(null);
                         }
-                        // ...
                     }
                 });
     }
 
     private void signIn() {
+        createProgressDialog();
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
@@ -143,24 +186,37 @@ public class GoogleSignInActivity extends AppCompatActivity implements GoogleApi
                         updateUI(null);
                     }
                 });
+        findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
+        findViewById(R.id.emailSignInButton).setVisibility(View.VISIBLE);
+        findViewById(R.id.sign_in_button).setFocusable(true);
+        findViewById(R.id.emailSignInButton).setFocusable(true);
+        findViewById(R.id.signOutButton).setVisibility(View.GONE);
+        findViewById(R.id.mainActivityButton).setVisibility(View.GONE);
+        findViewById(R.id.signOutButton).setFocusable(false);
+        findViewById(R.id.mainActivityButton).setFocusable(false);
+    }
+
+    private void createProgressDialog(){
+        mDialog = new ProgressDialog(this);
+        mDialog.setTitle("Authorizing...");
+        mDialog.setMessage("Checking user status...");
+        mDialog.setCancelable(false);
     }
 
     private void updateUI(FirebaseUser user) {
-//        hideProgressDialog();
+        invalidateOptionsMenu();
         if (user != null) {
             getSupportActionBar().setTitle("Welcome, " + user.getDisplayName() + "!");
-//            mStatusTextView.setText(getString(R.string.google_status_fmt, user.getEmail()));
-//            mDetailTextView.setText(getString(R.string.firebase_status_fmt, user.getUid()));
-
-//            findViewById(R.id.sign_in_button).setVisibility(View.GONE);
-//            findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
+            findViewById(R.id.sign_in_button).setVisibility(View.GONE);
+            findViewById(R.id.emailSignInButton).setVisibility(View.GONE);
+            findViewById(R.id.sign_in_button).setFocusable(false);
+            findViewById(R.id.emailSignInButton).setFocusable(false);
+            findViewById(R.id.signOutButton).setVisibility(View.VISIBLE);
+            findViewById(R.id.mainActivityButton).setVisibility(View.VISIBLE);
+            findViewById(R.id.signOutButton).setFocusable(true);
+            findViewById(R.id.mainActivityButton).setFocusable(true);
         } else {
-            Toast.makeText(GoogleSignInActivity.this, "Bad User", Toast.LENGTH_SHORT).show();
-//            mStatusTextView.setText(R.string.signed_out);
-//            mDetailTextView.setText(null);
-//
-//            findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
-//            findViewById(R.id.sign_out_and_disconnect).setVisibility(View.GONE);
+            getSupportActionBar().setTitle("Please sign into BrewYou");
         }
     }
 
@@ -181,13 +237,14 @@ public class GoogleSignInActivity extends AppCompatActivity implements GoogleApi
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         }
-        if (i == R.id.imageLogin) {
+        if (i == R.id.mainActivityButton) {
+            Intent intent = new Intent(GoogleSignInActivity.this, BrewSearch.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        }
+        if (i == R.id.signOutButton) {
             signOut();
         }
-        if (i == R.id.testRevoke) {
-            revokeAccess();
-        }
-
     }
 }
 
