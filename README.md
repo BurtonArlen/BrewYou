@@ -12,8 +12,8 @@ An app where the user can add beers to lists that the user either likes or disli
 Android device operating on AndroidOS version 4.0.1 (icecream sandwich)
 
 ## Known Bugs
-
-_{BreweryDB Api is not instatiated, data across activites is not persistent, formatting xml isnt super fun, image load time not as streamlined as desired, strech logic is not in place.  Share any workarounds that are in place. }_
+#Please contact me for setting new fingerprints within firebase if you are having trouble getting app to connect Share any workarounds that are in place.
+_{data across activites is not persistent, strech logic is not in place, upon clone of app from github the SHA-1 fingerprint changes causing the user to have to re set the fingerprint in firebase. }_
 
 ## Support and contact details
 
