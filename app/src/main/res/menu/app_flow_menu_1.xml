@@ -13,12 +13,6 @@
         app:showAsAction="never"
         />
     <item
-        android:id="@+id/revoke_user"
-        android:title="Delete Account"
-        android:visible="true"
-        app:showAsAction="never"
-        />
-    <item
         android:id="@+id/about_us"
         android:title="About BrewYou"
         android:visible="true"

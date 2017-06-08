@@ -22,6 +22,7 @@ import com.burton.arlen.brewyou.R;
 import com.burton.arlen.brewyou.adapters.SearchedBeerListAdapter;
 import com.burton.arlen.brewyou.models.Beer;
 import com.burton.arlen.brewyou.services.BottleService;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,10 +33,10 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-public class BrewSearch extends AppCompatActivity implements View.OnClickListener {
-    @Bind(R.id.returnFromSearch) Button mReturnFromSearch;
+public class BrewSearch extends AppCompatActivity {
     @Bind(R.id.searchBrewList) RecyclerView mSearchBrewList;
 
+    private FirebaseAuth mAuth;
     private SharedPreferences mSharedPreferences;
     private String mRecentSearches;
     private SharedPreferences.Editor mEditor;
@@ -46,7 +47,6 @@ public class BrewSearch extends AppCompatActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_brew_search);
         ButterKnife.bind(this);
-        mReturnFromSearch.setOnClickListener(this);
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mRecentSearches = mSharedPreferences.getString(Constants.PREFERENCES_NAME, null);
 
@@ -57,6 +57,16 @@ public class BrewSearch extends AppCompatActivity implements View.OnClickListene
         Intent intent = getIntent();
         String beerSearchTerm = intent.getStringExtra("beerSearchTerm");
         getBeer(beerSearchTerm);
+        mAuth = FirebaseAuth.getInstance();
+
+    }
+
+    private void signOut() {
+        Intent intent = new Intent(BrewSearch.this, GoogleSignInActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        mAuth.signOut();
+        startActivity(intent);
+
     }
 
     @Override
@@ -94,17 +104,21 @@ public class BrewSearch extends AppCompatActivity implements View.OnClickListene
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
-    }
-
-
-    @Override
-    public void onClick(View v) {
-        if (v == mReturnFromSearch) {
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+        if (id == R.id.action_logout){
+            signOut();
+            return true;
+        }
+        if (id == R.id.about_us){
+            Intent intent = new Intent(BrewSearch.this, AboutApp.class);
+            startActivity(intent);
+        }
+        if (id == R.id.user_profile){
             Intent intent = new Intent(BrewSearch.this, MainActivity.class);
             startActivity(intent);
         }
+        return super.onOptionsItemSelected(item);
     }
 
     private void getBeer(String name) {

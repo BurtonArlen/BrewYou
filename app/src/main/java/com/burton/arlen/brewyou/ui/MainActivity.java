@@ -53,7 +53,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mYouBrewPageButton.setOnClickListener(this);
 
         mAuth = FirebaseAuth.getInstance();
+        String userName = mAuth.getCurrentUser().getDisplayName();
+        setTitle("BrewYou: " + userName + "'s Profile");
 
+    }
+
+    private void revokeAccess() {
+        Auth.GoogleSignInApi.revokeAccess(mGoogleApiClient).setResultCallback(
+                new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(@NonNull Status status) {
+                        mAuth.signOut();
+                    }
+                });
     }
 
     private void signOut() {
@@ -75,6 +87,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = item.getItemId();
         if (id == R.id.action_logout){
             signOut();
+            return true;
+        }
+        if (id == R.id.revoke_user){
+            revokeAccess();
             return true;
         }
         if (id == R.id.about_us){
