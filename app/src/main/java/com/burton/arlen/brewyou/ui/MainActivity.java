@@ -32,13 +32,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private FirebaseAuth mAuth;
     private GoogleApiClient mGoogleApiClient;
 
-    @Bind(R.id.aboutPageButton) Button mAboutPageButton;
     @Bind(R.id.youBrewPageButton) Button mYouBrewPageButton;
     @Bind(R.id.notYouBrewPageButton) Button mNotYouBrewPageButton;
-    @Bind(R.id.searchBeerButton) Button mSearchBeerButton;
     @Bind(R.id.welcomeText) TextView mWelcomeText;
     @Bind(R.id.taglineText) TextView mTaglineText;
-    @Bind(R.id.beerSearchEnter) EditText mBeerSearchEnter;
+
 
 
     @Override
@@ -51,10 +49,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/font.ttf");
         mWelcomeText.setTypeface(font);
         mTaglineText.setTypeface(font);
-        mAboutPageButton.setOnClickListener(this);
         mNotYouBrewPageButton.setOnClickListener(this);
         mYouBrewPageButton.setOnClickListener(this);
-        mSearchBeerButton.setOnClickListener(this);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -63,7 +59,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void signOut() {
         Intent intent = new Intent(MainActivity.this, GoogleSignInActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        mAuth.signOut();
         startActivity(intent);
+
     }
 
     @Override
@@ -79,13 +77,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             signOut();
             return true;
         }
-        if (id == R.id.user_profile){
-            Toast.makeText(MainActivity.this, "Under Construction", Toast.LENGTH_SHORT).show();
-            return true;
-        }
-
         if (id == R.id.about_us){
             Intent intent = new Intent(MainActivity.this, AboutApp.class);
+            startActivity(intent);
+        }
+        if (id == R.id.search_page){
+            Intent intent = new Intent(MainActivity.this, BrewSearch.class);
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
@@ -93,21 +90,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        if (v == mSearchBeerButton){
-            String beerSearchTerm = mBeerSearchEnter.getText().toString();
-            if (beerSearchTerm.trim().length() != 0){
-                Intent intent = new Intent(MainActivity.this, BrewSearch.class);
-                intent.putExtra("beerSearchTerm", beerSearchTerm);
-                startActivity(intent);
-            } else {
-                mBeerSearchEnter.setError("You gotta look for something before you can find it");
-                mBeerSearchEnter.setText("");
-            }
-        }
-        if (v == mAboutPageButton){
-            Intent intent = new Intent(MainActivity.this, AboutApp.class);
-            startActivity(intent);
-        }
         if(v == mYouBrewPageButton){
             Intent intent = new Intent(MainActivity.this, YouBrews.class);
             startActivity(intent);
@@ -116,6 +98,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent intent = new Intent(MainActivity.this, NotYouBrews.class);
             startActivity(intent);
         }
-
     }
 }
