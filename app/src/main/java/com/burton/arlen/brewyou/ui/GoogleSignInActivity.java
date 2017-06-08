@@ -1,10 +1,14 @@
 package com.burton.arlen.brewyou.ui;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -34,6 +38,7 @@ import butterknife.ButterKnife;
 
 public class GoogleSignInActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
 
+    private ProgressDialog mDialog;
     private FirebaseAuth mAuth;
     private GoogleApiClient mGoogleApiClient;
     private static final int RC_SIGN_IN = 360;
@@ -46,6 +51,7 @@ public class GoogleSignInActivity extends AppCompatActivity implements GoogleApi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_google_sign_in);
+        createProgressDialog();
 
         mImageLogin = (ImageView) findViewById(R.id.imageLogin);
         mTestRevoke = (TextView) findViewById(R.id.testRevoke);
@@ -65,6 +71,34 @@ public class GoogleSignInActivity extends AppCompatActivity implements GoogleApi
                 .build();
 
         mAuth = FirebaseAuth.getInstance();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.app_flow_menu_1, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+        if (id == R.id.action_logout){
+            signOut();
+            return true;
+        }
+        if (id == R.id.user_profile){
+            Toast.makeText(GoogleSignInActivity.this, "Under Construction", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        if (id == R.id.revoke_user){
+            revokeAccess();
+            return true;
+        }
+        if (id == R.id.about_us){
+            Intent intent = new Intent(GoogleSignInActivity.this, AboutApp.class);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -95,12 +129,10 @@ public class GoogleSignInActivity extends AppCompatActivity implements GoogleApi
         Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
-        final String credCheck = credential.toString();
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                    Log.d(TAG, "signInCredential" + credCheck);
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
@@ -119,6 +151,7 @@ public class GoogleSignInActivity extends AppCompatActivity implements GoogleApi
     }
 
     private void signIn() {
+        createProgressDialog();
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
@@ -143,19 +176,32 @@ public class GoogleSignInActivity extends AppCompatActivity implements GoogleApi
                         updateUI(null);
                     }
                 });
+        findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
+        findViewById(R.id.emailSignInButton).setVisibility(View.VISIBLE);
+    }
+
+    private void createProgressDialog(){
+        mDialog = new ProgressDialog(this);
+        mDialog.setTitle("Authorizing...");
+        mDialog.setMessage("Checking user status...");
+        mDialog.setCancelable(false);
+    }
+
+    private void hideProgressDialog(){
+        mDialog.dismiss();
     }
 
     private void updateUI(FirebaseUser user) {
-//        hideProgressDialog();
+        hideProgressDialog();
         if (user != null) {
             getSupportActionBar().setTitle("Welcome, " + user.getDisplayName() + "!");
 //            mStatusTextView.setText(getString(R.string.google_status_fmt, user.getEmail()));
 //            mDetailTextView.setText(getString(R.string.firebase_status_fmt, user.getUid()));
 
-//            findViewById(R.id.sign_in_button).setVisibility(View.GONE);
-//            findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
+            findViewById(R.id.sign_in_button).setVisibility(View.GONE);
+            findViewById(R.id.emailSignInButton).setVisibility(View.GONE);
         } else {
-            Toast.makeText(GoogleSignInActivity.this, "Bad User", Toast.LENGTH_SHORT).show();
+            getSupportActionBar().setTitle("Please sign into BrewYou");
 //            mStatusTextView.setText(R.string.signed_out);
 //            mDetailTextView.setText(null);
 //
@@ -181,13 +227,6 @@ public class GoogleSignInActivity extends AppCompatActivity implements GoogleApi
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         }
-        if (i == R.id.imageLogin) {
-            signOut();
-        }
-        if (i == R.id.testRevoke) {
-            revokeAccess();
-        }
-
     }
 }
 
