@@ -26,7 +26,7 @@ public class AboutApp extends AppCompatActivity implements View.OnClickListener{
     @Override
     public void onClick(View v){
         if (v == mReturnFromAbout){
-            Intent intent = new Intent(AboutApp.this, MainActivity.class);
+            Intent intent = new Intent(AboutApp.this, GoogleSignInActivity.class);
             startActivity(intent);
         }
     }

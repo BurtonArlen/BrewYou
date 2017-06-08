@@ -59,15 +59,8 @@ public class GoogleSignInActivity extends AppCompatActivity implements GoogleApi
         mImageLogin = (ImageView) findViewById(R.id.imageLogin);
         mTestRevoke = (TextView) findViewById(R.id.testRevoke);
 
-        findViewById(R.id.signOutButton).setOnClickListener(this);
-        findViewById(R.id.mainActivityButton).setOnClickListener(this);
         findViewById(R.id.sign_in_button).setOnClickListener(this);
         findViewById(R.id.emailSignInButton).setOnClickListener(this);
-
-        findViewById(R.id.signOutButton).setVisibility(View.GONE);
-        findViewById(R.id.mainActivityButton).setVisibility(View.GONE);
-        findViewById(R.id.signOutButton).setFocusable(false);
-        findViewById(R.id.mainActivityButton).setFocusable(false);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -78,9 +71,9 @@ public class GoogleSignInActivity extends AppCompatActivity implements GoogleApi
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
         mAuth = FirebaseAuth.getInstance();
-
-        Intent theIntent = getIntent();
-        String theIntentString = theIntent.getStringExtra("logout");
+        if (mAuth.getCurrentUser() != null){
+            toProfile();
+        }
 
     }
     @Override
@@ -104,10 +97,6 @@ public class GoogleSignInActivity extends AppCompatActivity implements GoogleApi
         if (id == R.id.user_profile){
             Intent intent = new Intent(GoogleSignInActivity.this, MainActivity.class);
             startActivity(intent);
-            return true;
-        }
-        if (id == R.id.revoke_user){
-            revokeAccess();
             return true;
         }
         if (id == R.id.about_us){
@@ -190,10 +179,6 @@ public class GoogleSignInActivity extends AppCompatActivity implements GoogleApi
         findViewById(R.id.emailSignInButton).setVisibility(View.VISIBLE);
         findViewById(R.id.sign_in_button).setFocusable(true);
         findViewById(R.id.emailSignInButton).setFocusable(true);
-        findViewById(R.id.signOutButton).setVisibility(View.GONE);
-        findViewById(R.id.mainActivityButton).setVisibility(View.GONE);
-        findViewById(R.id.signOutButton).setFocusable(false);
-        findViewById(R.id.mainActivityButton).setFocusable(false);
     }
 
     private void createProgressDialog(){
@@ -211,13 +196,16 @@ public class GoogleSignInActivity extends AppCompatActivity implements GoogleApi
             findViewById(R.id.emailSignInButton).setVisibility(View.GONE);
             findViewById(R.id.sign_in_button).setFocusable(false);
             findViewById(R.id.emailSignInButton).setFocusable(false);
-            findViewById(R.id.signOutButton).setVisibility(View.VISIBLE);
-            findViewById(R.id.mainActivityButton).setVisibility(View.VISIBLE);
-            findViewById(R.id.signOutButton).setFocusable(true);
-            findViewById(R.id.mainActivityButton).setFocusable(true);
+            toProfile();
+
         } else {
             getSupportActionBar().setTitle("Please sign into BrewYou");
         }
+    }
+
+    private void toProfile(){
+        Intent intent = new Intent(GoogleSignInActivity.this, MainActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -236,14 +224,6 @@ public class GoogleSignInActivity extends AppCompatActivity implements GoogleApi
             Intent intent = new Intent(GoogleSignInActivity.this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
-        }
-        if (i == R.id.mainActivityButton) {
-            Intent intent = new Intent(GoogleSignInActivity.this, BrewSearch.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-        }
-        if (i == R.id.signOutButton) {
-            signOut();
         }
     }
 }
