@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Bind(R.id.taglineText) TextView mTaglineText;
     @Bind(R.id.beerSearchEnter) EditText mBeerSearchEnter;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
