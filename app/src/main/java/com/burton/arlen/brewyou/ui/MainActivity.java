@@ -34,10 +34,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Bind(R.id.youBrewPageButton) Button mYouBrewPageButton;
     @Bind(R.id.notYouBrewPageButton) Button mNotYouBrewPageButton;
-    @Bind(R.id.welcomeText) TextView mWelcomeText;
-    @Bind(R.id.taglineText) TextView mTaglineText;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,9 +42,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         ButterKnife.bind(this);
 
-        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/font.ttf");
-        mWelcomeText.setTypeface(font);
-        mTaglineText.setTypeface(font);
         mNotYouBrewPageButton.setOnClickListener(this);
         mYouBrewPageButton.setOnClickListener(this);
 

@@ -2,6 +2,7 @@ package com.burton.arlen.brewyou.ui;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -47,7 +48,8 @@ public class GoogleSignInActivity extends AppCompatActivity implements GoogleApi
     private static final int RC_SIGN_IN = 360;
 
     private Intent theIntent;
-    private TextView mTestRevoke;
+    private TextView mTitle;
+    private TextView mTag;
     private ImageView mImageLogin;
     String TAG = GoogleSignInActivity.class.getSimpleName();
 
@@ -56,8 +58,15 @@ public class GoogleSignInActivity extends AppCompatActivity implements GoogleApi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_google_sign_in);
         createProgressDialog();
+
+        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/font.ttf");
+
         mImageLogin = (ImageView) findViewById(R.id.imageLogin);
-        mTestRevoke = (TextView) findViewById(R.id.testRevoke);
+        mTitle = (TextView) findViewById(R.id.welcomeText);
+        mTag = (TextView) findViewById(R.id.taglineText);
+
+        mTag.setTypeface(font);
+        mTitle.setTypeface(font);
 
         findViewById(R.id.sign_in_button).setOnClickListener(this);
         findViewById(R.id.emailSignInButton).setOnClickListener(this);
@@ -153,17 +162,6 @@ public class GoogleSignInActivity extends AppCompatActivity implements GoogleApi
         createProgressDialog();
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
-    }
-
-    private void revokeAccess() {
-        mAuth.signOut();
-        Auth.GoogleSignInApi.revokeAccess(mGoogleApiClient).setResultCallback(
-                new ResultCallback<Status>() {
-                    @Override
-                    public void onResult(@NonNull Status status) {
-                        updateUI(null);
-                    }
-                });
     }
 
     private void signOut() {
