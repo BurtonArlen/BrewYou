@@ -69,7 +69,6 @@ public class GoogleSignInActivity extends AppCompatActivity implements GoogleApi
         mTitle.setTypeface(font);
 
         findViewById(R.id.sign_in_button).setOnClickListener(this);
-        findViewById(R.id.emailSignInButton).setOnClickListener(this);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -174,9 +173,8 @@ public class GoogleSignInActivity extends AppCompatActivity implements GoogleApi
                     }
                 });
         findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
-        findViewById(R.id.emailSignInButton).setVisibility(View.VISIBLE);
         findViewById(R.id.sign_in_button).setFocusable(true);
-        findViewById(R.id.emailSignInButton).setFocusable(true);
+
     }
 
     private void createProgressDialog(){
@@ -191,11 +189,8 @@ public class GoogleSignInActivity extends AppCompatActivity implements GoogleApi
         if (user != null) {
             getSupportActionBar().setTitle("Welcome, " + user.getDisplayName() + "!");
             findViewById(R.id.sign_in_button).setVisibility(View.GONE);
-            findViewById(R.id.emailSignInButton).setVisibility(View.GONE);
             findViewById(R.id.sign_in_button).setFocusable(false);
-            findViewById(R.id.emailSignInButton).setFocusable(false);
             toProfile();
-
         } else {
             getSupportActionBar().setTitle("Please sign into BrewYou");
         }
@@ -217,11 +212,6 @@ public class GoogleSignInActivity extends AppCompatActivity implements GoogleApi
         int i = v.getId();
         if (i == R.id.sign_in_button) {
             signIn();
-        }
-        if (i == R.id.emailSignInButton) {
-            Intent intent = new Intent(GoogleSignInActivity.this, MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
         }
     }
 }
