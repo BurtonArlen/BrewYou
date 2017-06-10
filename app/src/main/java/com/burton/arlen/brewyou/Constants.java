@@ -13,7 +13,6 @@ public class Constants {
     public static final String ENDPOINT_KEYWORD = "type";
     public static final String ENDPOINT_TYPE = "beer";
     public static final String PREFERENCES_NAME = "name";
-    public static final String FIREBASE_CHILD_SEARCH_NAME = "searchedBeer";
     public static final String FIREBASE_CHILD_BEER = "beers";
 
 
