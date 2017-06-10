@@ -68,16 +68,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .into(mProfilePic);
     }
 
-    private void revokeAccess() {
-        Auth.GoogleSignInApi.revokeAccess(mGoogleApiClient).setResultCallback(
-                new ResultCallback<Status>() {
-                    @Override
-                    public void onResult(@NonNull Status status) {
-                        mAuth.signOut();
-                    }
-                });
-    }
-
     private void signOut() {
         Intent intent = new Intent(MainActivity.this, GoogleSignInActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -97,10 +87,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = item.getItemId();
         if (id == R.id.action_logout){
             signOut();
-            return true;
-        }
-        if (id == R.id.revoke_user){
-            revokeAccess();
             return true;
         }
         if (id == R.id.about_us){
