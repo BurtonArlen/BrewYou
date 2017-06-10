@@ -137,7 +137,7 @@ public class BrewSearch extends AppCompatActivity {
                     public void run() {
                         String[] beerNames = new String[mBeers.size()];
                         for (int i = 0; i < beerNames.length; i++) {
-                            beerNames[i] = mBeers.get(i).getmName();
+                            beerNames[i] = mBeers.get(i).getName();
                         }
                         SearchedBeerListAdapter adapter = new SearchedBeerListAdapter(getApplicationContext(), mBeers);
                         mSearchBrewList.setAdapter(adapter);

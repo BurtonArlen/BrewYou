@@ -2,20 +2,15 @@ package com.burton.arlen.brewyou.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.burton.arlen.brewyou.R;
 import com.burton.arlen.brewyou.models.Beer;
-import com.burton.arlen.brewyou.ui.BrewSearch;
-import com.burton.arlen.brewyou.ui.MainActivity;
-import com.burton.arlen.brewyou.ui.YouBrews;
+import com.burton.arlen.brewyou.ui.BeerDetail;
 import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
@@ -61,6 +56,8 @@ public class SearchedBeerListAdapter extends RecyclerView.Adapter<SearchedBeerLi
         @Bind(R.id.styleText) TextView styleText;
         @Bind(R.id.availabilityText) TextView availabilityText;
         @Bind(R.id.iconView) ImageView iconView;
+        @Bind(R.id.imageView4) ImageView thumbsUp;
+        @Bind(R.id.imageView3) ImageView thumbsDown;
 
         private Context mContext;
         public BeerViewHolder(View itemView){
@@ -73,16 +70,21 @@ public class SearchedBeerListAdapter extends RecyclerView.Adapter<SearchedBeerLi
         @Override
         public void onClick(View v){
             int itemPosition = getLayoutPosition();
-            Beer localBeer = mBeers.get(itemPosition);
-            String term = localBeer.getmGoogle();
-            Intent googleIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(term));
-            mContext.startActivity(googleIntent);
+            Intent intent = new Intent(mContext, BeerDetail.class);
+            intent.putExtra("position", itemPosition);
+            intent.putExtra("beers", Parcels.wrap(mBeers));
+            mContext.startActivity(intent);
         }
+
         public void bindBeer(Beer beer){
-            nameText.setText(beer.getmName());
-            styleText.setText(beer.getmStyle());
-            availabilityText.setText(beer.getmAvailability());
-            Picasso.with(mContext).load(beer.getmImageIcon())
+            thumbsUp.setVisibility(View.GONE);
+            thumbsDown.setVisibility(View.GONE);
+
+            nameText.setText(beer.getName());
+            styleText.setText(beer.getStyle());
+            availabilityText.setText(beer.getAvailability());
+
+            Picasso.with(mContext).load(beer.getImageMedium())
                     .resize(MAX_WIDTH, MAX_HEIGHT)
                     .centerCrop()
                     .into(iconView);

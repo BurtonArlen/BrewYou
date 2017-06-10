@@ -11,9 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.MainActivity">
-
-        </activity>
+        <activity android:name=".ui.MainActivity" />
         <activity android:name=".ui.YouBrews" />
         <activity android:name=".ui.NotYouBrews" />
         <activity android:name=".ui.AboutApp" />
@@ -25,6 +23,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.BeerDetail" />
     </application>
 
 </manifest>

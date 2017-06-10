@@ -1,61 +1,64 @@
 package com.burton.arlen.brewyou.models;
 
+import org.parceler.Parcel;
+
 /**
  * Created by arlen on 6/2/17.
  */
 
+@Parcel
 public class Beer {
-    private String mName;
-    private String mId;
-    private String mImageIcon;
-    private String mImageMedium;
-    private String mImageLarge;
-    private String mStyle;
-    private String mAvailability;
-    private String mGoogle;
+    private String name;
+    private String id;
+    private String imageIcon;
+    private String imageMedium;
+    private String imageLarge;
+    private String style;
+    private String availability;
+    private String google;
+    private String opinion;
+    private String pushId;
+    private String descripton;
 
     public Beer(){}
 
-    public String getmName() {
-        return mName;
-    }
+    public String getName() { return name; }
 
-    public String getmId() {
-        return mId;
-    }
+    public String getId() { return id; }
 
-    public String getmImageIcon() {
-        return mImageIcon;
-    }
+    public String getImageIcon() { return imageIcon; }
 
-    public String getmImageMedium() {
-        return mImageMedium;
-    }
+    public String getImageMedium() { return imageMedium; }
 
-    public String getmImageLarge() {
-        return mImageLarge;
-    }
+    public String getImageLarge() { return imageLarge; }
 
-    public String getmStyle() {
-        return mStyle;
-    }
+    public String getStyle() { return style; }
 
-    public String getmAvailability() {
-        return mAvailability;
-    }
+    public String getAvailability() { return availability; }
 
-    public String getmGoogle(){
-        return mGoogle;
-    }
+    public String getGoogle(){ return google; }
 
-    public Beer(String name, String id, String imageIcon, String imageMedium, String imageLarge, String style, String availability){
-        this.mName = name;
-        this.mId = id;
-        this.mImageIcon = imageIcon;
-        this.mImageMedium = imageMedium;
-        this.mImageLarge = imageLarge;
-        this.mStyle = style;
-        this.mAvailability = availability;
-        this.mGoogle = "https://www.google.com/search?q=" + name;
+    public String getPushId() { return pushId; }
+
+    public void setPushId(String pushId) { this.pushId = pushId; }
+
+    public String hateBeer() { return opinion = "hate"; }
+
+    public String likeBeer() { return opinion = "like"; }
+
+    public String isOpinion() { return opinion;}
+
+    public String getDescripton() { return descripton; }
+
+    public Beer(String name, String id, String imageIcon, String imageMedium, String imageLarge, String style, String availability, String description){
+        this.name = name;
+        this.id = id;
+        this.imageIcon = imageIcon;
+        this.imageMedium = imageMedium;
+        this.imageLarge = imageLarge;
+        this.style = style;
+        this.availability = availability;
+        this.google = "https://www.google.com/search?q=" + name;
+        this.descripton = description;
     }
 }
