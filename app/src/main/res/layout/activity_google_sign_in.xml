@@ -50,7 +50,7 @@
     <ImageView
         android:layout_width="150sp"
         android:layout_height="150sp"
-        android:background="@mipmap/ic_launcher_round"
+        android:background="@drawable/logo_image"
         android:layout_marginLeft="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginRight="8dp"
