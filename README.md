@@ -12,8 +12,11 @@ An app where the user can add beers to lists that the user either likes or disli
 Android device operating on AndroidOS version 4.0.1 (icecream sandwich)
 
 ## Known Bugs
-#Please contact me for setting new fingerprints within firebase if you are having trouble getting app to connect Share any workarounds that are in place.
-_{data across activites is not persistent, strech logic is not in place, upon clone of app from github the SHA-1 fingerprint changes causing the user to have to re set the fingerprint in firebase. }_
+_{when loading app from android studio users will not be able to authorize with google. the workarround to this is when the project is pulled from github:}_ 
+1) Use android studio instant run
+2) Uninstall the app from the emulator
+3) Use the finder/explorer to select the highest version of debug-sdk0-xx.sdk from inside the app folder
+4) drag and drop this file onto your emulator to install the signed version that will work with firebase
 
 ## Support and contact details
 
