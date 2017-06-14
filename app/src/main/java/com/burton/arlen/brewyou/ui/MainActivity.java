@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Bind(R.id.imageLogin) ImageView mProfilePic;
     @Bind(R.id.anim1) ImageView youBrewAnim;
     @Bind(R.id.anim2) ImageView nYouBrewAnim;
+    @Bind(R.id.mainSearchButton) Button mMainSearchButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         ButterKnife.bind(this);
 
+        mMainSearchButton.setOnClickListener(this);
         mNotYouBrewPageButton.setOnClickListener(this);
         mYouBrewPageButton.setOnClickListener(this);
 
@@ -110,6 +112,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     .scaleX(1000f)
                     .scaleY(1000f)
                     .setDuration(10);
+            mMainSearchButton.animate().alpha(0f);
+            mProfilePic.animate().alpha(0f);
+            mNotYouBrewPageButton.animate().alpha(0f);
             Intent intent = new Intent(MainActivity.this, YouBrews.class);
             startActivity(intent);
         }
@@ -118,7 +123,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     .scaleX(1000f)
                     .scaleY(1000f)
                     .setDuration(10);
+            mMainSearchButton.animate().alpha(0f);
+            mProfilePic.animate().alpha(0f);
+            mYouBrewPageButton.animate().alpha(0f);
             Intent intent = new Intent(MainActivity.this, NotYouBrews.class);
+            startActivity(intent);
+        }
+        if (v == mMainSearchButton){
+            mMainSearchButton.animate().alpha(0f);
+            mProfilePic.animate().alpha(0f);
+            mYouBrewPageButton.animate().alpha(0f);
+            mNotYouBrewPageButton.animate().alpha(0f);
+            Intent intent = new Intent(MainActivity.this, BrewSearch.class);
             startActivity(intent);
         }
     }
@@ -126,24 +142,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onResume(){
         super.onResume();
         youBrewAnim.animate()
+                .alpha(1f)
                 .scaleX(1f)
                 .scaleY(1f)
                 .setDuration(1000);
         nYouBrewAnim.animate()
+                .alpha(1f)
                 .scaleX(1f)
                 .scaleY(1f)
                 .setDuration(1000);
-    }
-    @Override
-    public void onStart() {
-        super.onStart();
-        youBrewAnim.animate()
-                .scaleX(1f)
-                .scaleY(1f)
+        mNotYouBrewPageButton.animate()
+                .alpha(1f)
                 .setDuration(1000);
-        nYouBrewAnim.animate()
-                .scaleX(1f)
-                .scaleY(1f)
+        mMainSearchButton.animate()
+                .alpha(1f)
+                .setDuration(1000);
+        mProfilePic.animate()
+                .alpha(1f)
+                .setDuration(1000);
+        mYouBrewPageButton.animate()
+                .alpha(1f)
                 .setDuration(1000);
     }
 }

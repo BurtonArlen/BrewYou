@@ -98,9 +98,10 @@ public class BeerDetailFrag extends Fragment implements View.OnClickListener{
             mBeer.setPushId(pushId);
             mBeer.likeBeer();
             pushRef.setValue(mBeer);
-
-
             Toast.makeText(getContext(), "Great Beer", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(getActivity() , BrewSearch.class);
+            startActivity(intent);
+
         }
         if (v == mHateButton){
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -111,9 +112,9 @@ public class BeerDetailFrag extends Fragment implements View.OnClickListener{
             mBeer.setPushId(pushId);
             mBeer.hateBeer();
             pushRef.setValue(mBeer);
-
-
             Toast.makeText(getContext(), "Beer Sucked", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(getActivity() , BrewSearch.class);
+            startActivity(intent);
         }
         if (v == mGoogleIt){
             String term = mBeer.getGoogle() + " beer";

@@ -54,8 +54,8 @@ public class BottleService {
                         String imageMedium = beerJSON.getJSONObject("labels").optString("medium");
                         String imageLarge = beerJSON.getJSONObject("labels").optString("large");
                         String style = beerJSON.getJSONObject("style").optString("shortName");
-                        String availability = beerJSON.getJSONObject("available").getString("name");
-                        String description = beerJSON.getString("description");
+                        String availability = beerJSON.getJSONObject("available").optString("name");
+                        String description = beerJSON.optString("description");
                         Beer beer = new Beer(name, id, imageIcon, imageMedium, imageLarge, style, availability, description);
                         beers.add(beer);
                     }

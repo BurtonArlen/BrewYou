@@ -2,9 +2,21 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorDivider"
+    >
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="395dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="4dp"
+        android:background="@color/colorAccent">
 
     <ImageView
         android:id="@+id/iconView"
@@ -26,7 +38,7 @@
         android:textSize="14sp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:textColor="#000"
+        android:textColor="@color/colorPrimaryDark"
         android:text="Style"
         app:layout_constraintLeft_toRightOf="@+id/iconView"
         android:layout_marginLeft="8dp"
@@ -43,13 +55,13 @@
         android:text="Name"
         android:textSize="30sp"
         app:layout_constraintLeft_toRightOf="@+id/iconView"
-        android:textColor="#000"
+        android:textColor="@color/colorPrimary"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginStart="8dp" />
 
     <TextView
         android:id="@+id/availabilityText"
-        android:textColor="#000"
+        android:textColor="@color/colorPrimaryDark"
         android:layout_width="wrap_content"
         android:layout_height="24dp"
         android:layout_alignParentEnd="true"
@@ -91,7 +103,7 @@
         android:text="Rank: 1"
         android:id="@+id/rankText"
         android:textSize="22sp"
-        android:textColor="#000"
+        android:textColor="@color/colorPrimary"
         android:layout_marginTop="8dp"
         app:layout_constraintTop_toBottomOf="@+id/nameText"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -100,5 +112,6 @@
         android:layout_marginRight="8dp"
         app:layout_constraintLeft_toRightOf="@+id/availabilityText"
         android:layout_marginLeft="8dp" />
+        </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>

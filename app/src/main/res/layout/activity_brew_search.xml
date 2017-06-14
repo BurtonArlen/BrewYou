@@ -4,20 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.burton.arlen.brewyou.ui.BrewSearch"
-    android:background="@drawable/bg">
+    android:background="@color/colorAccent">
     <android.support.v7.widget.RecyclerView
         android:id="@+id/searchBrewList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerHorizontal="true">
     </android.support.v7.widget.RecyclerView>
-    <Button
-        android:id="@+id/returnFromSearch"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="5sp"
-        android:layout_marginLeft="5sp"
-        android:layout_marginRight="5sp"
-        android:text="Return Home"/>
 </RelativeLayout>

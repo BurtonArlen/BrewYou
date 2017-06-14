@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.burton.arlen.brewyou.ui.AboutApp"
-    android:background="@drawable/bg">
+    android:background="@color/colorPrimary">
 
     <TextView
         android:id="@+id/aboutAppText"
@@ -38,6 +38,8 @@
         android:layout_marginBottom="5sp"
         android:layout_marginLeft="5sp"
         android:layout_marginRight="5sp"
-        android:text="Return Home"/>
+        android:text="Return Home"
+        android:background="@color/colorAccent"
+        android:textColor="@color/colorPrimary"/>
 
 </RelativeLayout>
