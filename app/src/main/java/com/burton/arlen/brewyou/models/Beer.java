@@ -19,6 +19,7 @@ public class Beer {
     private String opinion;
     private String pushId;
     private String descripton;
+    private String index;
 
     public Beer(){}
 
@@ -50,6 +51,10 @@ public class Beer {
 
     public String getDescripton() { return descripton; }
 
+    public String getIndex() { return index; }
+
+    public void setIndex(String index) { this.index = index; }
+
     public Beer(String name, String id, String imageIcon, String imageMedium, String imageLarge, String style, String availability, String description){
         this.name = name;
         this.id = id;
@@ -60,5 +65,6 @@ public class Beer {
         this.availability = availability;
         this.google = "https://www.google.com/search?q=" + name;
         this.descripton = description;
+        this.index = "not_set";
     }
 }

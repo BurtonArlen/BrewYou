@@ -14,8 +14,10 @@ public class Constants {
     public static final String ENDPOINT_TYPE = "beer";
     public static final String PREFERENCES_NAME = "name";
     public static final String FIREBASE_CHILD_BEER = "beers";
-
-
-
+    public static final String FIREBASE_CHILD_OPINION_GOOD = "like";
+    public static final String FIREBASE_CHILD_OPINION_BAD = "hate";
+    public static final String KEY_SOURCE = "source";
+    public static final String SOURCE_SAVED = "saved";
+    public static final String SOURCE_FIND = "find";
+    public static final String FIREBASE_QUERY_INDEX = "index";
 }
-//http://api.brewerydb.com/v2/search/?q=Rainer&type=beer&key=57dcc32caa34e7ea24a812532cb63716

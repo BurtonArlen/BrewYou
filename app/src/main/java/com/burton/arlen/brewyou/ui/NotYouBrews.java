@@ -51,7 +51,7 @@ public class NotYouBrews extends AppCompatActivity{
 
     private void setUpFirebaseAdapter() {
         mFirebaseAdapter = new FirebaseRecyclerAdapter<Beer, FirebaseBadBeerViewHolder>
-                (Beer.class, R.layout.beer_list_item, FirebaseBadBeerViewHolder.class,
+                (Beer.class, R.layout.beer_list_item_drag, FirebaseBadBeerViewHolder.class,
                         mBeerReference) {
 
             @Override

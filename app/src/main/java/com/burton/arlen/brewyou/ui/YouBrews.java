@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,25 +16,30 @@ import android.widget.ListView;
 
 import com.burton.arlen.brewyou.Constants;
 import com.burton.arlen.brewyou.R;
+import com.burton.arlen.brewyou.adapters.FirebaseBeerListAdapter;
 import com.burton.arlen.brewyou.adapters.FirebaseBeerViewHolder;
 import com.burton.arlen.brewyou.models.Beer;
+import com.burton.arlen.brewyou.util.OnStartDragListener;
+import com.burton.arlen.brewyou.util.SimpleItemTouchHelperCallback;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
 import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class YouBrews extends AppCompatActivity{
+public class YouBrews extends AppCompatActivity implements OnStartDragListener{
     private ArrayList<String> goodBrews = new ArrayList<>();
     FirebaseAuth mAuth;
+    private ItemTouchHelper mItemTouchHelper;
 
     private DatabaseReference mBeerReference;
-    private FirebaseRecyclerAdapter mFirebaseAdapter;
+    private FirebaseBeerListAdapter mFirebaseAdapter;
     @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
 
     @Override
@@ -41,32 +47,39 @@ public class YouBrews extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.brew_lists);
         ButterKnife.bind(this);
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String uid = user.getUid();
-        mBeerReference = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_BEER).child(uid).child("like");
-        setUpFirebaseAdapter();
         mAuth = FirebaseAuth.getInstance();
+        setUpFirebaseAdapter();
     }
 
     private void setUpFirebaseAdapter() {
-        mFirebaseAdapter = new FirebaseRecyclerAdapter<Beer, FirebaseBeerViewHolder>
-                (Beer.class, R.layout.beer_list_item, FirebaseBeerViewHolder.class,
-                        mBeerReference) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String uid = user.getUid();
 
-            @Override
-            protected void populateViewHolder(FirebaseBeerViewHolder viewHolder,
-                                              Beer model, int position) {
-                viewHolder.bindBeer(model);
-            }
-        };
+        Query query = FirebaseDatabase.getInstance()
+                .getReference(Constants.FIREBASE_CHILD_BEER)
+                .child(uid).child(Constants.FIREBASE_CHILD_OPINION_GOOD)
+                .orderByChild(Constants.FIREBASE_QUERY_INDEX);
+
+        mFirebaseAdapter = new FirebaseBeerListAdapter
+                (Beer.class, R.layout.beer_list_item_drag, FirebaseBeerViewHolder.class, query, this, this);
+
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mFirebaseAdapter);
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mFirebaseAdapter);
+        mItemTouchHelper = new ItemTouchHelper(callback);
+        mItemTouchHelper.attachToRecyclerView(mRecyclerView);
+
     }
     @Override
     protected void onDestroy() {
         super.onDestroy();
         mFirebaseAdapter.cleanup();
+    }
+
+    @Override
+    public void onStartDrag(RecyclerView.ViewHolder viewHolder){
+        mItemTouchHelper.startDrag(viewHolder);
     }
 
     @Override

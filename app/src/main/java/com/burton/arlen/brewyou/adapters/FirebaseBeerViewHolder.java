@@ -30,26 +30,30 @@ import butterknife.Bind;
  * Created by arlen on 6/9/17.
  */
 
-public class FirebaseBeerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class FirebaseBeerViewHolder extends RecyclerView.ViewHolder {
     private static final int MAX_WIDTH = 200;
     private static final int MAX_HEIGHT = 200;
-
-    View mView;
-    Context mContext;
+    public ImageView iconView;
+    private View mView;
+    private Context mContext;
+    private String rQual;
+    private int rQualInt;
 
     public FirebaseBeerViewHolder(View itemView) {
         super(itemView);
         mView = itemView;
         mContext = itemView.getContext();
-        itemView.setOnClickListener(this);
     }
 
     public void bindBeer(Beer beer) {
-        ImageView iconView = (ImageView) mView.findViewById(R.id.iconView);
+        rQualInt = Integer.parseInt(beer.getIndex()) + 1;
+        rQual = "Rank: " + String.valueOf(rQualInt);
+        iconView = (ImageView) mView.findViewById(R.id.iconView);
         TextView mName = (TextView) mView.findViewById(R.id.nameText);
         TextView mStyle = (TextView) mView.findViewById(R.id.styleText);
         TextView mAvailability = (TextView) mView.findViewById(R.id.availabilityText);
         ImageView thumbsDown = (ImageView) mView.findViewById(R.id.imageView3);
+        TextView rank = (TextView) mView.findViewById(R.id.rankText);
 
         Picasso.with(mContext)
                 .load(beer.getImageLarge())
@@ -60,39 +64,8 @@ public class FirebaseBeerViewHolder extends RecyclerView.ViewHolder implements V
         mName.setText(beer.getName());
         mStyle.setText(beer.getStyle());
         mAvailability.setText(beer.getAvailability());
+        rank.setText(rQual);
         thumbsDown.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void onClick(View view) {
-        final ArrayList<Beer> beers = new ArrayList<>();
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String uid = user.getUid();
-        DatabaseReference ref = FirebaseDatabase.getInstance()
-                .getReference(Constants.FIREBASE_CHILD_BEER)
-                .child(uid)
-                .child("like");
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    beers.add(snapshot.getValue(Beer.class));
-                }
-
-                int itemPosition = getLayoutPosition();
-
-                Intent intent = new Intent(mContext, BeerDetail.class);
-                intent.putExtra("position", itemPosition);
-                intent.putExtra("beers", Parcels.wrap(beers));
-
-                mContext.startActivity(intent);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
     }
 }
 

@@ -32,8 +32,8 @@ public class FirebaseBadBeerViewHolder extends RecyclerView.ViewHolder implement
     private static final int MAX_WIDTH = 200;
     private static final int MAX_HEIGHT = 200;
 
-    View mView;
-    Context mContext;
+    private View mView;
+    private Context mContext;
 
     public FirebaseBadBeerViewHolder(View itemView) {
         super(itemView);
