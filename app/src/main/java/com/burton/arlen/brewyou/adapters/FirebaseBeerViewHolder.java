@@ -11,6 +11,7 @@ import com.burton.arlen.brewyou.Constants;
 import com.burton.arlen.brewyou.R;
 import com.burton.arlen.brewyou.models.Beer;
 import com.burton.arlen.brewyou.ui.BeerDetail;
+import com.burton.arlen.brewyou.util.ItemTouchHelperViewHolder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -30,7 +31,7 @@ import butterknife.Bind;
  * Created by arlen on 6/9/17.
  */
 
-public class FirebaseBeerViewHolder extends RecyclerView.ViewHolder {
+public class FirebaseBeerViewHolder extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder{
     private static final int MAX_WIDTH = 200;
     private static final int MAX_HEIGHT = 200;
     public ImageView iconView;
@@ -38,6 +39,25 @@ public class FirebaseBeerViewHolder extends RecyclerView.ViewHolder {
     private Context mContext;
     private String rQual;
     private int rQualInt;
+
+    @Override
+    public void onItemSelected() {
+        itemView.animate()
+                .alpha(0.5f)
+                .scaleX(0.7f)
+                .scaleY(0.7f)
+                .rotation(1080f)
+                .setDuration(150);
+    }
+
+    @Override
+    public void onItemClear() {
+        itemView.animate()
+                .rotation(0f)
+                .alpha(1f)
+                .scaleX(1f)
+                .scaleY(1f);
+    }
 
     public FirebaseBeerViewHolder(View itemView) {
         super(itemView);

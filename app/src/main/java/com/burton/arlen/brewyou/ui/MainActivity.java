@@ -27,6 +27,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
@@ -44,6 +45,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Bind(R.id.youBrewPageButton) Button mYouBrewPageButton;
     @Bind(R.id.notYouBrewPageButton) Button mNotYouBrewPageButton;
     @Bind(R.id.imageLogin) ImageView mProfilePic;
+    @Bind(R.id.anim1) ImageView youBrewAnim;
+    @Bind(R.id.anim2) ImageView nYouBrewAnim;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,12 +106,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         if(v == mYouBrewPageButton){
+            youBrewAnim.animate()
+                    .scaleX(1000f)
+                    .scaleY(1000f)
+                    .setDuration(10);
             Intent intent = new Intent(MainActivity.this, YouBrews.class);
             startActivity(intent);
         }
         if(v == mNotYouBrewPageButton){
+            nYouBrewAnim.animate()
+                    .scaleX(1000f)
+                    .scaleY(1000f)
+                    .setDuration(10);
             Intent intent = new Intent(MainActivity.this, NotYouBrews.class);
             startActivity(intent);
         }
+    }
+    @Override
+    public void onResume(){
+        super.onResume();
+        youBrewAnim.animate()
+                .scaleX(1f)
+                .scaleY(1f)
+                .setDuration(1000);
+        nYouBrewAnim.animate()
+                .scaleX(1f)
+                .scaleY(1f)
+                .setDuration(1000);
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        youBrewAnim.animate()
+                .scaleX(1f)
+                .scaleY(1f)
+                .setDuration(1000);
+        nYouBrewAnim.animate()
+                .scaleX(1f)
+                .scaleY(1f)
+                .setDuration(1000);
     }
 }

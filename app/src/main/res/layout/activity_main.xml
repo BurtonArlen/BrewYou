@@ -28,6 +28,36 @@
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"
         app:layout_constraintLeft_toLeftOf="parent" />
+
+    <ImageView
+        android:layout_width="10sp"
+        android:layout_height="10sp"
+        android:id="@+id/anim2"
+        android:background="#000"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="@+id/notYouBrewPageButton"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="@+id/notYouBrewPageButton"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <ImageView
+        android:layout_width="10sp"
+        android:layout_height="10sp"
+        android:id="@+id/anim1"
+        android:background="#000"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintTop_toTopOf="@+id/youBrewPageButton"
+        android:layout_marginTop="0dp"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="@+id/youBrewPageButton"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="@+id/youBrewPageButton"
+        app:layout_constraintVertical_bias="0.501" />
+
     <Button
         android:id="@+id/notYouBrewPageButton"
         android:layout_width="wrap_content"

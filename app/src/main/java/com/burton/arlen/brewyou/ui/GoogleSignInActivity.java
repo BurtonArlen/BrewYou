@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.burton.arlen.brewyou.Constants;
 import com.burton.arlen.brewyou.R;
+import com.burton.arlen.brewyou.util.ItemTouchHelperViewHolder;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -40,7 +41,7 @@ import com.google.firebase.database.Transaction;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class GoogleSignInActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
+public class GoogleSignInActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener{
 
     private ProgressDialog mDialog;
     private FirebaseAuth mAuth;
@@ -212,6 +213,11 @@ public class GoogleSignInActivity extends AppCompatActivity implements GoogleApi
         int i = v.getId();
         if (i == R.id.sign_in_button) {
             signIn();
+            mImageLogin.animate()
+                    .scaleX(100f)
+                    .scaleY(100f)
+                    .rotation(4320f)
+                    .setDuration(2000);
         }
     }
 }
