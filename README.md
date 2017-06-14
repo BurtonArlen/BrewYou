@@ -17,6 +17,8 @@ _{when loading app from android studio users will not be able to authorize with 
 2) Uninstall the app from the emulator
 3) Use the finder/explorer to select the highest version of debug-sdk0-xx.sdk from inside the app folder
 4) drag and drop this file onto your emulator to install the signed version that will work with firebase
+5) restart emulator (if restarted via instant run, do not uninstall current app if sdk file has been installed via step 4)
+6) run app as intended
 
 ## Support and contact details
 
