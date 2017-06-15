@@ -2,15 +2,22 @@ package com.burton.arlen.brewyou.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.burton.arlen.brewyou.Constants;
 import com.burton.arlen.brewyou.R;
 import com.burton.arlen.brewyou.models.Beer;
 import com.burton.arlen.brewyou.ui.BeerDetail;
+import com.burton.arlen.brewyou.ui.BeerDetailFrag;
 import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
@@ -36,9 +43,16 @@ public class SearchedBeerListAdapter extends RecyclerView.Adapter<SearchedBeerLi
 
     @Override
     public SearchedBeerListAdapter.BeerViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.beer_list_item, parent, false);
-        BeerViewHolder viewHolder = new BeerViewHolder(view);
-        return viewHolder;
+        int mOrientation = mContext.getResources().getConfiguration().orientation;
+        if (mOrientation == Configuration.ORIENTATION_LANDSCAPE){
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.beer_list_item_land, parent, false);
+            BeerViewHolder viewHolder = new BeerViewHolder(view);
+            return viewHolder;
+        } else {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.beer_list_item, parent, false);
+            BeerViewHolder viewHolder = new BeerViewHolder(view);
+            return viewHolder;
+        }
     }
 
     @Override
@@ -58,22 +72,37 @@ public class SearchedBeerListAdapter extends RecyclerView.Adapter<SearchedBeerLi
         @Bind(R.id.iconView) ImageView iconView;
         @Bind(R.id.imageView4) ImageView thumbsUp;
         @Bind(R.id.imageView3) ImageView thumbsDown;
-
+        private int mOrientation;
         private Context mContext;
+
+        private void createDetailFragment(int position){
+            BeerDetailFrag detailFrag = BeerDetailFrag.newInstance(mBeers, position);
+            FragmentTransaction ft = ((FragmentActivity) mContext).getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.beerContainer, detailFrag);
+            ft.commit();
+        }
+
         public BeerViewHolder(View itemView){
             super(itemView);
             ButterKnife.bind(this, itemView);
             mContext = itemView.getContext();
+            mOrientation = itemView.getResources().getConfiguration().orientation;
             itemView.setOnClickListener(this);
+
         }
+
 
         @Override
         public void onClick(View v){
             int itemPosition = getLayoutPosition();
-            Intent intent = new Intent(mContext, BeerDetail.class);
-            intent.putExtra("position", itemPosition);
-            intent.putExtra("beers", Parcels.wrap(mBeers));
-            mContext.startActivity(intent);
+            if (mOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+                createDetailFragment(itemPosition);
+            } else {
+                Intent intent = new Intent(mContext, BeerDetail.class);
+                intent.putExtra("position", itemPosition);
+                intent.putExtra("beers", Parcels.wrap(mBeers));
+                mContext.startActivity(intent);
+            }
         }
 
         public void bindBeer(Beer beer){

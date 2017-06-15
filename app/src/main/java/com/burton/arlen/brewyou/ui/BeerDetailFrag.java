@@ -2,6 +2,7 @@ package com.burton.arlen.brewyou.ui;
 
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -25,6 +26,8 @@ import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
 
+import java.util.ArrayList;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -34,6 +37,9 @@ import butterknife.ButterKnife;
 public class BeerDetailFrag extends Fragment implements View.OnClickListener{
     private static final int MAX_WIDTH = 400;
     private static final int MAX_HEIGHT = 230;
+    private int mOrientation;
+    private ArrayList<Beer> mBeers;
+    private int mPosition;
     @Bind(R.id.hateButton) Button mHateButton;
     @Bind(R.id.likeButton) Button mLikeButton;
     @Bind(R.id.learnMoreButton) Button mGoogleIt;
@@ -46,10 +52,11 @@ public class BeerDetailFrag extends Fragment implements View.OnClickListener{
 
     private Beer mBeer;
 
-    public static BeerDetailFrag newInstance(Beer beer) {
+    public static BeerDetailFrag newInstance(ArrayList<Beer> beers, Integer position) {
         BeerDetailFrag beerDetailFragment = new BeerDetailFrag();
         Bundle args = new Bundle();
-        args.putParcelable("beer", Parcels.wrap(beer));
+        args.putParcelable("beers", Parcels.wrap(beers));
+        args.putInt("position", position);
         beerDetailFragment.setArguments(args);
         return beerDetailFragment;
     }
@@ -57,33 +64,23 @@ public class BeerDetailFrag extends Fragment implements View.OnClickListener{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mBeer = Parcels.unwrap(getArguments().getParcelable("beer"));
+        mBeers = Parcels.unwrap(getArguments().getParcelable("beers"));
+        mPosition = getArguments().getInt("position");
+        mBeer = mBeers.get(mPosition);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_beer_detail2, container, false);
         ButterKnife.bind(this, view);
-
         Picasso.with(view.getContext()).load(mBeer.getImageLarge()).resize(MAX_WIDTH, MAX_HEIGHT).centerCrop().into(beerLabel);
-
         nameText.setText(mBeer.getName());
         style.setText(mBeer.getStyle());
         availability.setText(mBeer.getAvailability());
         description.setText(mBeer.getDescripton());
-
         mHateButton.setOnClickListener(this);
         mLikeButton.setOnClickListener(this);
         mGoogleIt.setOnClickListener(this);
-
-        if("hate" == mBeer.isOpinion()){
-            mHateButton.setVisibility(View.GONE);
-            mHateButton.setFocusable(false);
-        }
-        if("like" == mBeer.isOpinion()){
-            mLikeButton.setVisibility(View.GONE);
-            mLikeButton.setFocusable(false);
-        }
         return view;
     }
 

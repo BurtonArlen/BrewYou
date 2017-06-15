@@ -1,6 +1,7 @@
 package com.burton.arlen.brewyou.ui;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +17,8 @@ import android.widget.ListView;
 
 import com.burton.arlen.brewyou.Constants;
 import com.burton.arlen.brewyou.R;
+import com.burton.arlen.brewyou.adapters.FirebaseBadBeerListAdapter;
+import com.burton.arlen.brewyou.adapters.FirebaseBadBeerViewHolder;
 import com.burton.arlen.brewyou.adapters.FirebaseBeerListAdapter;
 import com.burton.arlen.brewyou.adapters.FirebaseBeerViewHolder;
 import com.burton.arlen.brewyou.models.Beer;
@@ -37,7 +40,7 @@ public class YouBrews extends AppCompatActivity implements OnStartDragListener{
     private ArrayList<String> goodBrews = new ArrayList<>();
     FirebaseAuth mAuth;
     private ItemTouchHelper mItemTouchHelper;
-
+    private int mOrientation;
     private DatabaseReference mBeerReference;
     private FirebaseBeerListAdapter mFirebaseAdapter;
     @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
@@ -45,7 +48,12 @@ public class YouBrews extends AppCompatActivity implements OnStartDragListener{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.brew_lists);
+        mOrientation = getResources().getConfiguration().orientation;
+        if (mOrientation == Configuration.ORIENTATION_LANDSCAPE){
+            setContentView(R.layout.brew_lists_land);
+        } else {
+            setContentView(R.layout.brew_lists);
+        }
         ButterKnife.bind(this);
         setUpFirebaseAdapter();
     }
@@ -59,8 +67,13 @@ public class YouBrews extends AppCompatActivity implements OnStartDragListener{
                 .child(uid).child(Constants.FIREBASE_CHILD_OPINION_GOOD)
                 .orderByChild(Constants.FIREBASE_QUERY_INDEX);
 
-        mFirebaseAdapter = new FirebaseBeerListAdapter
-                (Beer.class, R.layout.beer_list_item_drag, FirebaseBeerViewHolder.class, query, this, this);
+        if (mOrientation == Configuration.ORIENTATION_LANDSCAPE){
+            mFirebaseAdapter = new FirebaseBeerListAdapter
+                    (Beer.class, R.layout.beer_list_item_drag_land, FirebaseBeerViewHolder.class, query, this, this);
+        } else {
+            mFirebaseAdapter = new FirebaseBeerListAdapter
+                    (Beer.class, R.layout.beer_list_item_drag, FirebaseBeerViewHolder.class, query, this, this);
+        }
 
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));

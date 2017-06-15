@@ -2,6 +2,7 @@ package com.burton.arlen.brewyou.ui;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.preference.PreferenceManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -41,11 +42,17 @@ public class BrewSearch extends AppCompatActivity {
     private String mRecentSearches;
     private SharedPreferences.Editor mEditor;
     public ArrayList<Beer> mBeers = new ArrayList<>();
+    private int mOrientation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_brew_search);
+        mOrientation = getResources().getConfiguration().orientation;
+        if (mOrientation == Configuration.ORIENTATION_LANDSCAPE){
+            setContentView(R.layout.activity_brew_search_land);
+        } else {
+            setContentView(R.layout.activity_brew_search);
+        }
         ButterKnife.bind(this);
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mRecentSearches = mSharedPreferences.getString(Constants.PREFERENCES_NAME, null);

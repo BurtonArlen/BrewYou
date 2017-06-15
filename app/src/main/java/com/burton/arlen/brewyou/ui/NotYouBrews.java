@@ -1,6 +1,7 @@
 package com.burton.arlen.brewyou.ui;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -40,13 +41,19 @@ public class NotYouBrews extends AppCompatActivity implements OnStartDragListene
     private DatabaseReference mBeerReference;
     private FirebaseBadBeerListAdapter mFirebaseAdapter;
     private ItemTouchHelper mItemTouchHelper;
+    private int mOrientation;
     @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
     FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.brew_lists);
+        mOrientation = getResources().getConfiguration().orientation;
+        if (mOrientation == Configuration.ORIENTATION_LANDSCAPE){
+            setContentView(R.layout.brew_lists_land);
+        } else {
+            setContentView(R.layout.brew_lists);
+        }
         ButterKnife.bind(this);
         setUpFirebaseAdapter();
     }
@@ -60,9 +67,13 @@ public class NotYouBrews extends AppCompatActivity implements OnStartDragListene
                 .child(uid).child(Constants.FIREBASE_CHILD_OPINION_BAD)
                 .orderByChild(Constants.FIREBASE_QUERY_INDEX);
 
-        mFirebaseAdapter = new FirebaseBadBeerListAdapter
-                (Beer.class, R.layout.beer_list_item_drag, FirebaseBadBeerViewHolder.class, query, this, this);
-
+        if (mOrientation == Configuration.ORIENTATION_LANDSCAPE){
+            mFirebaseAdapter = new FirebaseBadBeerListAdapter
+                    (Beer.class, R.layout.beer_list_item_drag_land, FirebaseBadBeerViewHolder.class, query, this, this);
+        } else {
+            mFirebaseAdapter = new FirebaseBadBeerListAdapter
+                    (Beer.class, R.layout.beer_list_item_drag, FirebaseBadBeerViewHolder.class, query, this, this);
+        }
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mFirebaseAdapter);

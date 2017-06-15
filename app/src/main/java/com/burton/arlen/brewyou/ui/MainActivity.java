@@ -2,6 +2,7 @@ package com.burton.arlen.brewyou.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private FirebaseAuth mAuth;
     private GoogleApiClient mGoogleApiClient;
     private Context mContext;
+    private int mOrientation;
     private static final int MAX_WIDTH = 300;
     private static final int MAX_HEIGHT = 300;
 
@@ -52,7 +54,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        mOrientation = getResources().getConfiguration().orientation;
+        if (mOrientation == Configuration.ORIENTATION_LANDSCAPE){
+            setContentView(R.layout.activity_main_land);
+        } else {
+            setContentView(R.layout.activity_main);
+        }
 
         Context mContext = getApplicationContext();
 
