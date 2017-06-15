@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,24 +17,29 @@ import android.widget.ListView;
 
 import com.burton.arlen.brewyou.Constants;
 import com.burton.arlen.brewyou.R;
+import com.burton.arlen.brewyou.adapters.FirebaseBadBeerListAdapter;
 import com.burton.arlen.brewyou.adapters.FirebaseBadBeerViewHolder;
+import com.burton.arlen.brewyou.adapters.FirebaseBeerListAdapter;
 import com.burton.arlen.brewyou.adapters.FirebaseBeerViewHolder;
 import com.burton.arlen.brewyou.models.Beer;
+import com.burton.arlen.brewyou.util.OnStartDragListener;
+import com.burton.arlen.brewyou.util.SimpleItemTouchHelperCallback;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
 import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class NotYouBrews extends AppCompatActivity{
-    private ArrayList<String> badBrews = new ArrayList<>();
+public class NotYouBrews extends AppCompatActivity implements OnStartDragListener{
     private DatabaseReference mBeerReference;
-    private FirebaseRecyclerAdapter mFirebaseAdapter;
+    private FirebaseBadBeerListAdapter mFirebaseAdapter;
+    private ItemTouchHelper mItemTouchHelper;
     @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
     FirebaseAuth mAuth;
 
@@ -42,27 +48,40 @@ public class NotYouBrews extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.brew_lists);
         ButterKnife.bind(this);
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String uid = user.getUid();
-        mBeerReference = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_BEER).child(uid).child("hate");
         setUpFirebaseAdapter();
-        mAuth = FirebaseAuth.getInstance();
     }
 
     private void setUpFirebaseAdapter() {
-        mFirebaseAdapter = new FirebaseRecyclerAdapter<Beer, FirebaseBadBeerViewHolder>
-                (Beer.class, R.layout.beer_list_item_drag, FirebaseBadBeerViewHolder.class,
-                        mBeerReference) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String uid = user.getUid();
 
-            @Override
-            protected void populateViewHolder(FirebaseBadBeerViewHolder viewHolder,
-                                              Beer model, int position) {
-                viewHolder.bindBeer(model);
-            }
-        };
+        Query query = FirebaseDatabase.getInstance()
+                .getReference(Constants.FIREBASE_CHILD_BEER)
+                .child(uid).child(Constants.FIREBASE_CHILD_OPINION_BAD)
+                .orderByChild(Constants.FIREBASE_QUERY_INDEX);
+
+        mFirebaseAdapter = new FirebaseBadBeerListAdapter
+                (Beer.class, R.layout.beer_list_item_drag, FirebaseBadBeerViewHolder.class, query, this, this);
+
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mFirebaseAdapter);
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mFirebaseAdapter);
+        mItemTouchHelper = new ItemTouchHelper(callback);
+        mItemTouchHelper.attachToRecyclerView(mRecyclerView);
+
+        mFirebaseAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                super.onItemRangeInserted(positionStart, itemCount);
+                mFirebaseAdapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    @Override
+    public void onStartDrag(RecyclerView.ViewHolder viewHolder){
+        mItemTouchHelper.startDrag(viewHolder);
     }
     @Override
     protected void onDestroy() {

@@ -66,8 +66,8 @@ public class FirebaseBeerViewHolder extends RecyclerView.ViewHolder implements I
     }
 
     public void bindBeer(Beer beer) {
-        rQualInt = Integer.parseInt(beer.getIndex()) + 1;
-        rQual = "Rank: " + String.valueOf(rQualInt);
+//        rQualInt = Integer.parseInt(beer.getIndex()) + 1;
+//        rQual = "Rank: " + String.valueOf(rQualInt);
         iconView = (ImageView) mView.findViewById(R.id.iconView);
         TextView mName = (TextView) mView.findViewById(R.id.nameText);
         TextView mStyle = (TextView) mView.findViewById(R.id.styleText);
@@ -84,7 +84,7 @@ public class FirebaseBeerViewHolder extends RecyclerView.ViewHolder implements I
         mName.setText(beer.getName());
         mStyle.setText(beer.getStyle());
         mAvailability.setText(beer.getAvailability());
-        rank.setText(rQual);
+//        rank.setText(rQual);
         thumbsDown.setVisibility(View.GONE);
     }
 }

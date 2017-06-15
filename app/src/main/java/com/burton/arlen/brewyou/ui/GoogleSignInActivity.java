@@ -2,6 +2,7 @@ package com.burton.arlen.brewyou.ui;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -52,6 +53,7 @@ public class GoogleSignInActivity extends AppCompatActivity implements GoogleApi
     private TextView mTitle;
     private TextView mTag;
     private ImageView mImageLogin;
+    private int mOrientation;
     String TAG = GoogleSignInActivity.class.getSimpleName();
 
     @Override
@@ -76,14 +78,13 @@ public class GoogleSignInActivity extends AppCompatActivity implements GoogleApi
                 .requestEmail()
                 .build();
         mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this , this)
+                .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
         mAuth = FirebaseAuth.getInstance();
-        if (mAuth.getCurrentUser() != null){
+        if (mAuth.getCurrentUser() != null) {
             toProfile();
         }
-
     }
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {

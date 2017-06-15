@@ -47,7 +47,6 @@ public class YouBrews extends AppCompatActivity implements OnStartDragListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.brew_lists);
         ButterKnife.bind(this);
-        mAuth = FirebaseAuth.getInstance();
         setUpFirebaseAdapter();
     }
 
@@ -70,6 +69,13 @@ public class YouBrews extends AppCompatActivity implements OnStartDragListener{
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(mRecyclerView);
 
+        mFirebaseAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                super.onItemRangeInserted(positionStart, itemCount);
+                mFirebaseAdapter.notifyDataSetChanged();
+            }
+        });
     }
     @Override
     protected void onDestroy() {

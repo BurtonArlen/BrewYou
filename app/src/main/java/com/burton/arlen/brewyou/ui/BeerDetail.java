@@ -33,4 +33,9 @@ public class BeerDetail extends AppCompatActivity {
         mViewPager.setAdapter(adapterViewPager);
         mViewPager.setCurrentItem(startingPosition);
     }
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        mBeers.clear();
+    }
 }

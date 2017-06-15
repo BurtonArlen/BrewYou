@@ -92,7 +92,7 @@ public class BeerDetailFrag extends Fragment implements View.OnClickListener{
         if (v == mLikeButton){
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
             String uid = user.getUid();
-            DatabaseReference beerRef = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_BEER).child(uid).child("like");
+            DatabaseReference beerRef = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_BEER).child(uid).child(Constants.FIREBASE_CHILD_OPINION_GOOD);
             DatabaseReference pushRef = beerRef.push();
             String pushId = pushRef.getKey();
             mBeer.setPushId(pushId);
@@ -106,7 +106,7 @@ public class BeerDetailFrag extends Fragment implements View.OnClickListener{
         if (v == mHateButton){
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
             String uid = user.getUid();
-            DatabaseReference beerRef = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_BEER).child(uid).child("hate");
+            DatabaseReference beerRef = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_BEER).child(uid).child(Constants.FIREBASE_CHILD_OPINION_BAD);
             DatabaseReference pushRef = beerRef.push();
             String pushId = pushRef.getKey();
             mBeer.setPushId(pushId);

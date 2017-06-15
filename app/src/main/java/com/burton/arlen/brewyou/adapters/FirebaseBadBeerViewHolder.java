@@ -11,6 +11,7 @@ import com.burton.arlen.brewyou.Constants;
 import com.burton.arlen.brewyou.R;
 import com.burton.arlen.brewyou.models.Beer;
 import com.burton.arlen.brewyou.ui.BeerDetail;
+import com.burton.arlen.brewyou.util.ItemTouchHelperViewHolder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -28,26 +29,49 @@ import java.util.ArrayList;
  * Created by arlen on 6/9/17.
  */
 
-public class FirebaseBadBeerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class FirebaseBadBeerViewHolder extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder {
     private static final int MAX_WIDTH = 200;
     private static final int MAX_HEIGHT = 200;
-
+    public ImageView iconView;
     private View mView;
     private Context mContext;
+//    private String rQual;
+//    private int rQualInt;
+
+    @Override
+    public void onItemSelected() {
+        itemView.animate()
+                .alpha(0.5f)
+                .scaleX(0.7f)
+                .scaleY(0.7f)
+                .rotation(1080f)
+                .setDuration(150);
+    }
+
+    @Override
+    public void onItemClear() {
+        itemView.animate()
+                .rotation(0f)
+                .alpha(1f)
+                .scaleX(1f)
+                .scaleY(1f);
+    }
 
     public FirebaseBadBeerViewHolder(View itemView) {
         super(itemView);
         mView = itemView;
         mContext = itemView.getContext();
-        itemView.setOnClickListener(this);
     }
 
     public void bindBeer(Beer beer) {
-        ImageView iconView = (ImageView) mView.findViewById(R.id.iconView);
+//        rQualInt = Integer.parseInt(beer.getIndex()) + 1;
+//        rQual = "Rank: " + String.valueOf(rQualInt);
+        iconView = (ImageView) mView.findViewById(R.id.iconView);
         TextView mName = (TextView) mView.findViewById(R.id.nameText);
         TextView mStyle = (TextView) mView.findViewById(R.id.styleText);
         TextView mAvailability = (TextView) mView.findViewById(R.id.availabilityText);
         ImageView thumbsUp = (ImageView) mView.findViewById(R.id.imageView4);
+        TextView rank = (TextView) mView.findViewById(R.id.rankText);
 
         Picasso.with(mContext)
                 .load(beer.getImageLarge())
@@ -58,38 +82,8 @@ public class FirebaseBadBeerViewHolder extends RecyclerView.ViewHolder implement
         mName.setText(beer.getName());
         mStyle.setText(beer.getStyle());
         mAvailability.setText(beer.getAvailability());
+//        rank.setText(rQual);
         thumbsUp.setVisibility(View.GONE);
     }
-
-    @Override
-    public void onClick(View view) {
-        final ArrayList<Beer> beers = new ArrayList<>();
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String uid = user.getUid();
-        DatabaseReference ref = FirebaseDatabase.getInstance()
-                .getReference(Constants.FIREBASE_CHILD_BEER)
-                .child(uid)
-                .child("hate");
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    beers.add(snapshot.getValue(Beer.class));
-                }
-
-                int itemPosition = getLayoutPosition();
-
-                Intent intent = new Intent(mContext, BeerDetail.class);
-                intent.putExtra("position", itemPosition);
-                intent.putExtra("beers", Parcels.wrap(beers));
-
-                mContext.startActivity(intent);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
-    }
 }
+
