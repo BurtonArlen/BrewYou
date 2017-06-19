@@ -2,6 +2,7 @@ package com.burton.arlen.brewyou.ui;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.preference.PreferenceManager;
 import android.support.v4.view.MenuItemCompat;
@@ -13,9 +14,6 @@ import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.burton.arlen.brewyou.Constants;
@@ -36,38 +34,29 @@ import okhttp3.Response;
 
 public class BrewSearch extends AppCompatActivity {
     @Bind(R.id.searchBrewList) RecyclerView mSearchBrewList;
-
     private FirebaseAuth mAuth;
     private SharedPreferences mSharedPreferences;
     private String mRecentSearches;
     private SharedPreferences.Editor mEditor;
     public ArrayList<Beer> mBeers = new ArrayList<>();
     private int mOrientation;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mOrientation = getResources().getConfiguration().orientation;
-        if (mOrientation == Configuration.ORIENTATION_LANDSCAPE){
-            setContentView(R.layout.activity_brew_search_land);
-        } else {
-            setContentView(R.layout.activity_brew_search);
-        }
+        setContentView(R.layout.activity_brew_search);
         ButterKnife.bind(this);
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mRecentSearches = mSharedPreferences.getString(Constants.PREFERENCES_NAME, null);
-
         if (mRecentSearches != null){
             getBeer(mRecentSearches);
         }
-
         Intent intent = getIntent();
         String beerSearchTerm = intent.getStringExtra("beerSearchTerm");
         getBeer(beerSearchTerm);
         mAuth = FirebaseAuth.getInstance();
 
     }
-
     private void signOut() {
         Intent intent = new Intent(BrewSearch.this, GoogleSignInActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -75,20 +64,23 @@ public class BrewSearch extends AppCompatActivity {
         startActivity(intent);
 
     }
-
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            setRequestedOrientation( ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+        }
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_search, menu);
         ButterKnife.bind(this);
-
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mEditor = mSharedPreferences.edit();
-
         MenuItem menuItem = menu.findItem(R.id.action_search);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-
             @Override
             public boolean onQueryTextSubmit(String query) {
                 if (query != null) {
@@ -99,7 +91,6 @@ public class BrewSearch extends AppCompatActivity {
                 }
                 return false;
             }
-
             @Override
             public boolean onQueryTextChange(String newText) {
                 return false;
@@ -109,7 +100,6 @@ public class BrewSearch extends AppCompatActivity {
 
         return true;
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         int id = item.getItemId();
@@ -127,7 +117,6 @@ public class BrewSearch extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
     private void getBeer(String name) {
         final BottleService bottleService = new BottleService();
         bottleService.findBeer(name, new Callback() {

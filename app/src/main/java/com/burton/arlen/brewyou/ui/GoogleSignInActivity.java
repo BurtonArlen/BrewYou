@@ -2,6 +2,7 @@ package com.burton.arlen.brewyou.ui;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
@@ -33,28 +34,18 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 public class GoogleSignInActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener{
-
     private ProgressDialog mDialog;
     private FirebaseAuth mAuth;
     private GoogleApiClient mGoogleApiClient;
     private static final int RC_SIGN_IN = 360;
-
-    private Intent theIntent;
     private TextView mTitle;
     private TextView mTag;
     private ImageView mImageLogin;
-    private int mOrientation;
     String TAG = GoogleSignInActivity.class.getSimpleName();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mOrientation = getResources().getConfiguration().orientation;
-        if (mOrientation == Configuration.ORIENTATION_LANDSCAPE){
-            setContentView(R.layout.activity_google_sign_in_land);
-        } else {
-            setContentView(R.layout.activity_google_sign_in);
-        }
+        setContentView(R.layout.activity_google_sign_in);
         createProgressDialog();
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/font.ttf");
         mImageLogin = (ImageView) findViewById(R.id.imageLogin);
@@ -63,7 +54,6 @@ public class GoogleSignInActivity extends AppCompatActivity implements GoogleApi
         mTag.setTypeface(font);
         mTitle.setTypeface(font);
         findViewById(R.id.sign_in_button).setOnClickListener(this);
-
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
@@ -75,6 +65,13 @@ public class GoogleSignInActivity extends AppCompatActivity implements GoogleApi
         mAuth = FirebaseAuth.getInstance();
         if (mAuth.getCurrentUser() != null) {
             toProfile();
+        }
+    }
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            setRequestedOrientation( ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         }
     }
     @Override
@@ -112,7 +109,6 @@ public class GoogleSignInActivity extends AppCompatActivity implements GoogleApi
         FirebaseUser currentUser = mAuth.getCurrentUser();
         updateUI(currentUser);
     }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -149,13 +145,11 @@ public class GoogleSignInActivity extends AppCompatActivity implements GoogleApi
                     }
                 });
     }
-
     private void signIn() {
         createProgressDialog();
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
-
     private void signOut() {
         mAuth.signOut();
         Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
@@ -169,14 +163,12 @@ public class GoogleSignInActivity extends AppCompatActivity implements GoogleApi
         findViewById(R.id.sign_in_button).setFocusable(true);
 
     }
-
     private void createProgressDialog(){
         mDialog = new ProgressDialog(this);
         mDialog.setTitle("Authorizing...");
         mDialog.setMessage("Checking user status...");
         mDialog.setCancelable(false);
     }
-
     private void updateUI(FirebaseUser user) {
         invalidateOptionsMenu();
         if (user != null) {
@@ -188,18 +180,15 @@ public class GoogleSignInActivity extends AppCompatActivity implements GoogleApi
             getSupportActionBar().setTitle("Please sign into BrewYou");
         }
     }
-
     private void toProfile(){
         Intent intent = new Intent(GoogleSignInActivity.this, MainActivity.class);
         startActivity(intent);
     }
-
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Log.d(TAG, "onConnectionFailure:" + connectionResult);
         Toast.makeText(GoogleSignInActivity.this, "AuthFailed", Toast.LENGTH_SHORT).show();
     }
-
     @Override
     public void onClick(View v) {
         int i = v.getId();

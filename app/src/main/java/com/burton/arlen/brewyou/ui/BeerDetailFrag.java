@@ -2,19 +2,17 @@ package com.burton.arlen.brewyou.ui;
 
 
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.burton.arlen.brewyou.Constants;
 import com.burton.arlen.brewyou.R;
 import com.burton.arlen.brewyou.models.Beer;
@@ -23,11 +21,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
-
 import org.parceler.Parcels;
-
 import java.util.ArrayList;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -48,10 +43,8 @@ public class BeerDetailFrag extends Fragment implements View.OnClickListener{
     @Bind(R.id.descText) TextView description;
     @Bind(R.id.availabilityText) TextView availability;
     @Bind(R.id.styleText) TextView style;
-
-
+    @Bind(R.id.beerContainer) FrameLayout beerContainer;
     private Beer mBeer;
-
     public static BeerDetailFrag newInstance(ArrayList<Beer> beers, Integer position) {
         BeerDetailFrag beerDetailFragment = new BeerDetailFrag();
         Bundle args = new Bundle();
@@ -60,7 +53,6 @@ public class BeerDetailFrag extends Fragment implements View.OnClickListener{
         beerDetailFragment.setArguments(args);
         return beerDetailFragment;
     }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +60,6 @@ public class BeerDetailFrag extends Fragment implements View.OnClickListener{
         mPosition = getArguments().getInt("position");
         mBeer = mBeers.get(mPosition);
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_beer_detail2, container, false);
@@ -83,7 +74,6 @@ public class BeerDetailFrag extends Fragment implements View.OnClickListener{
         mGoogleIt.setOnClickListener(this);
         return view;
     }
-
     @Override
     public void onClick(View v) {
         if (v == mLikeButton){
@@ -98,7 +88,6 @@ public class BeerDetailFrag extends Fragment implements View.OnClickListener{
             Toast.makeText(getContext(), "Great Beer", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(getActivity() , BrewSearch.class);
             startActivity(intent);
-
         }
         if (v == mHateButton){
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -118,6 +107,5 @@ public class BeerDetailFrag extends Fragment implements View.OnClickListener{
             Intent googleIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(term));
             startActivity(googleIntent);
         }
-
     }
 }

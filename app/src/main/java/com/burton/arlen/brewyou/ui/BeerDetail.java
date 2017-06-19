@@ -21,7 +21,6 @@ public class BeerDetail extends AppCompatActivity {
     private BeerPagerAdapter adapterViewPager;
     private int mOrientation;
     ArrayList<Beer> mBeers = new ArrayList<>();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,10 +31,8 @@ public class BeerDetail extends AppCompatActivity {
             setContentView(R.layout.activity_beer_detail);
         }
         ButterKnife.bind(this);
-
         mBeers = Parcels.unwrap(getIntent().getParcelableExtra("beers"));
         int startingPosition = getIntent().getIntExtra("position", 0);
-
         adapterViewPager = new BeerPagerAdapter(getSupportFragmentManager(), mBeers);
         mViewPager.setAdapter(adapterViewPager);
         mViewPager.setCurrentItem(startingPosition);

@@ -2,33 +2,21 @@ package com.burton.arlen.brewyou.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import android.graphics.Typeface;
 import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.burton.arlen.brewyou.R;
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
@@ -50,21 +38,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Bind(R.id.anim1) ImageView youBrewAnim;
     @Bind(R.id.anim2) ImageView nYouBrewAnim;
     @Bind(R.id.mainSearchButton) Button mMainSearchButton;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mOrientation = getResources().getConfiguration().orientation;
-        if (mOrientation == Configuration.ORIENTATION_LANDSCAPE){
-            setContentView(R.layout.activity_main_land);
-        } else {
-            setContentView(R.layout.activity_main);
-        }
-
+        setContentView(R.layout.activity_main);
         Context mContext = getApplicationContext();
-
         ButterKnife.bind(this);
-
         mMainSearchButton.setOnClickListener(this);
         mNotYouBrewPageButton.setOnClickListener(this);
         mYouBrewPageButton.setOnClickListener(this);
@@ -79,7 +58,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .centerCrop()
                 .into(mProfilePic);
     }
-
     private void signOut() {
         Intent intent = new Intent(MainActivity.this, GoogleSignInActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -87,7 +65,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         startActivity(intent);
 
     }
-
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            setRequestedOrientation( ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+        }
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -111,7 +95,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         return super.onOptionsItemSelected(item);
     }
-
     @Override
     public void onClick(View v) {
         if(v == mYouBrewPageButton){

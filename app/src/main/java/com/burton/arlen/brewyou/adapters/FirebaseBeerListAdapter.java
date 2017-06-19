@@ -33,7 +33,6 @@ public class FirebaseBeerListAdapter extends FirebaseRecyclerAdapter<Beer, Fireb
     private Context mContext;
     private ChildEventListener mChildEventListener;
     private ArrayList<Beer> mBeers = new ArrayList<>();
-
     private void setIndexInFirebase(){
         for (Beer beer : mBeers){
             int index = mBeers.indexOf(beer);
@@ -42,7 +41,6 @@ public class FirebaseBeerListAdapter extends FirebaseRecyclerAdapter<Beer, Fireb
             ref.setValue(beer);
         }
     }
-
     public FirebaseBeerListAdapter(Class<Beer> modelClass, int modelLayout,
                                       Class<FirebaseBeerViewHolder> viewHolderClass,
                                       Query ref, OnStartDragListener onStartDragListener, Context context) {
@@ -55,25 +53,17 @@ public class FirebaseBeerListAdapter extends FirebaseRecyclerAdapter<Beer, Fireb
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 mBeers.add(dataSnapshot.getValue(Beer.class));
             }
-
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
             }
-
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-
             }
-
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
     }
@@ -95,25 +85,21 @@ public class FirebaseBeerListAdapter extends FirebaseRecyclerAdapter<Beer, Fireb
                 Intent intent = new Intent(mContext, BeerDetail.class);
                 intent.putExtra("position", viewHolder.getAdapterPosition());
                 intent.putExtra("beers", Parcels.wrap(mBeers));
-
                 mContext.startActivity(intent);
             }
         });
     }
-
     @Override
     public boolean onItemMove(int fromPosition, int toPosition) {
         Collections.swap(mBeers, fromPosition, toPosition);
         notifyItemMoved(fromPosition, toPosition);
         return false;
     }
-
     @Override
     public void onItemDismiss(int position) {
         mBeers.remove(position);
         getRef(position).removeValue();
     }
-
     @Override
     public void cleanup() {
         super.cleanup();
